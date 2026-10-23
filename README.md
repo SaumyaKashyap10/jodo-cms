@@ -24,7 +24,8 @@ npm install
 npm run dev
 ```
 
-The application will launch on [http://localhost:3000](http://localhost:3000).
+- **Standalone CMS Repository**: The dashboard is the home page at [http://localhost:3000](http://localhost:3000) (and [http://localhost:3000/owner](http://localhost:3000/owner)).
+- **Monorepo / Full Platform**: When running the full multi-portal project, access the CMS console at [http://localhost:3000/owner](http://localhost:3000/owner) (root `/` is the public website).
 
 ## 🛠 Tech Stack
 
