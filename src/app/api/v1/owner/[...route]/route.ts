@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { handleOwnerRoute } from '@/lib/owner-backend-service';
+import { guardOwnerRoute } from '@/lib/server-auth';
 
 async function handle(req: NextRequest, { params }: { params: Promise<{ route: string[] }> }) {
   const { route } = await params;
   const path = 'owner/' + route.join('/');
   const method = req.method;
+
+  const authError = guardOwnerRoute(req);
+  if (authError) return authError;
 
   const res = await handleOwnerRoute(path, method, req);
   if (res) return res;

@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const DEMO_OWNER_USER = {
-  id: 'usr-demo-owner',
-  email: 'saumya@gmail.com',
-  role: 'owner',
-};
-
-const DEMO_SESSION = {
-  user: DEMO_OWNER_USER,
-  csrf: 'demo-csrf-token-saumya',
-};
+import { loginOwner, validateSession, revokeSession } from '@/lib/server-auth';
 
 async function handle(req: NextRequest, { params }: { params: Promise<{ route: string[] }> }) {
   const { route } = await params;
@@ -17,14 +7,17 @@ async function handle(req: NextRequest, { params }: { params: Promise<{ route: s
   const method = req.method;
 
   if (path === 'me') {
-    const res = NextResponse.json(DEMO_SESSION);
-    res.cookies.set('jodo_session', 'demo-session-token', {
-      path: '/',
-      httpOnly: true,
-      sameSite: 'lax',
-      maxAge: 8 * 60 * 60,
+    const session = validateSession(req);
+    if (!session) {
+      return NextResponse.json({ message: 'Sign in to the owner console' }, { status: 401 });
+    }
+    return NextResponse.json({
+      user: session.user,
+      csrf: session.csrf,
+      token: session.token,
+      sessionId: session.sessionId,
+      expiresAt: session.expiresAt,
     });
-    return res;
   }
 
   if (path === 'login' && method === 'POST') {
@@ -33,14 +26,21 @@ async function handle(req: NextRequest, { params }: { params: Promise<{ route: s
       body = await req.json();
     } catch {}
 
-    const email = body.email || DEMO_OWNER_USER.email;
-    const session = {
-      ...DEMO_SESSION,
-      user: { ...DEMO_OWNER_USER, email },
+    const loginResult = await loginOwner(body);
+    if ('error' in loginResult) {
+      return NextResponse.json({ message: loginResult.error }, { status: loginResult.status });
+    }
+
+    const sessionResponse = {
+      user: loginResult.user,
+      token: loginResult.token,
+      csrf: loginResult.csrf,
+      sessionId: loginResult.sessionId,
+      expiresAt: loginResult.expiresAt,
     };
 
-    const res = NextResponse.json(session, { status: 200 });
-    res.cookies.set('jodo_session', 'demo-session-token', {
+    const res = NextResponse.json(sessionResponse, { status: 200 });
+    res.cookies.set('jodo_session', loginResult.token, {
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
@@ -50,6 +50,7 @@ async function handle(req: NextRequest, { params }: { params: Promise<{ route: s
   }
 
   if (path === 'logout' && method === 'POST') {
+    revokeSession(req);
     const res = NextResponse.json({ ok: true });
     res.cookies.delete('jodo_session');
     return res;

@@ -41,24 +41,23 @@ export function OwnerProvider({
   const sync = useCallback(async () => {
     try {
       const data = await api<any>('/v1/auth/me');
-      if (data && data.user) {
+      if (data && data.user && data.user.role === 'owner') {
+        if (data.csrf && typeof window !== 'undefined') {
+          localStorage.setItem('auth_csrf', data.csrf);
+        }
         setSession({
           user: data.user,
-          csrf: data.csrf || 'csrf-token-default',
+          csrf: data.csrf || '',
         });
       } else {
         setSession(null);
       }
     } catch {
-      // In demo mode fallback to platform owner session
-      setSession({
-        user: {
-          id: 'usr-demo-owner',
-          email: 'saumya@gmail.com',
-          role: 'owner',
-        },
-        csrf: 'csrf-token-default',
-      });
+      // Unauthenticated or expired session - user must sign in with verified credentials
+      setSession(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth_csrf');
+      }
     } finally {
       setLoading(false);
     }
@@ -81,6 +80,10 @@ export function OwnerProvider({
       await api('/v1/auth/logout', { method: 'POST' });
     } catch {
       // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_csrf');
     }
     setSession(null);
   };

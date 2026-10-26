@@ -9,11 +9,24 @@ export class ApiError extends Error {
 }
 export async function api<T = any>(path: string, options: RequestInit = {}): Promise<T> {
   let r: Response;
+  const authHeaders: Record<string, string> = {};
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('auth_token');
+    const csrf = localStorage.getItem('auth_csrf');
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+    if (csrf) {
+      authHeaders['x-csrf-token'] = csrf;
+    }
+  }
+
   try {
     r = await fetch('/api' + path, {
       ...options,
       headers: {
         ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+        ...authHeaders,
         ...options.headers,
       },
       credentials: 'same-origin',

@@ -6,6 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { PaymentProviderRegistry } from '@/lib/autopay-provider';
 
 // ---------------------------------------------------------------------------
 // Interfaces & Types
@@ -2292,5 +2293,80 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     return NextResponse.json(admin);
   }
 
+  // 22. AutoPay Sandbox Service Endpoints
+  if (path === 'owner/sandbox/status' && method === 'GET') {
+    return NextResponse.json(PaymentProviderRegistry.getConfigurationStatus());
+  }
+
+  if (path === 'owner/sandbox/mandates' && method === 'POST') {
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {}
+    const provider = PaymentProviderRegistry.getProvider();
+    const result = await provider.initiateMandateRegistration({
+      institution_id: body.institution_id || 'inst_dps_rkpuram',
+      student_id: body.student_id || `std_${Date.now()}`,
+      student_name: body.student_name || 'Simulated Student',
+      payer_name: body.payer_name || 'Simulated Payer',
+      payer_phone: body.payer_phone || '+919876543210',
+      payer_email: body.payer_email || 'payer@example.com',
+      payer_vpa_or_account: body.payer_vpa_or_account || 'payer@okhdfcbank',
+      rail: body.rail || 'upi_autopay',
+      max_amount_inr: Number(body.max_amount_inr) || 25000,
+      frequency: body.frequency || 'monthly',
+      start_date: body.start_date || new Date().toISOString().split('T')[0],
+      end_date: body.end_date || new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split('T')[0],
+      is_sandbox: true,
+    });
+    return NextResponse.json(result);
+  }
+
+  if (path === 'owner/sandbox/debits' && method === 'POST') {
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {}
+    const provider = PaymentProviderRegistry.getProvider();
+    try {
+      const debit = await provider.initiateRecurringDebit({
+        mandate_id: body.mandate_id,
+        amount_inr: Number(body.amount_inr) || 5000,
+        description: body.description || 'Simulated Monthly Tuition Fee Debit',
+        idempotency_key: body.idempotency_key || `idemp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        simulated_outcome: body.simulated_outcome || 'success',
+        is_sandbox: true,
+      });
+      return NextResponse.json(debit);
+    } catch (err: any) {
+      return NextResponse.json({ error: err.message }, { status: 400 });
+    }
+  }
+
+  if (path === 'owner/sandbox/reconcile' && method === 'POST') {
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {}
+    const provider = PaymentProviderRegistry.getProvider();
+    const batchId = body.batch_id || `REC_BAT_${Date.now()}`;
+    const date = body.date || new Date().toISOString().split('T')[0];
+    const recResult = await provider.reconcileBatch(batchId, date);
+    return NextResponse.json(recResult);
+  }
+
+  if (path === 'owner/sandbox/webhook' && method === 'POST') {
+    const rawPayload = await req.text();
+    const sig = req.headers.get('x-razorpay-signature') || req.headers.get('x-signature') || 'test-sig';
+    const provider = PaymentProviderRegistry.getProvider();
+    try {
+      const webhookRes = await provider.verifyAndProcessWebhook(rawPayload, sig, {});
+      return NextResponse.json(webhookRes);
+    } catch (err: any) {
+      return NextResponse.json({ error: err.message }, { status: 400 });
+    }
+  }
+
   return null;
 }
+

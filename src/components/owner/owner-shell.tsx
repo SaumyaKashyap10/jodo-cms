@@ -160,6 +160,7 @@ export function OwnerShellContent() {
       });
       if (res && (res.token || res.user || res.csrf)) {
         if (res.token) localStorage.setItem('auth_token', res.token);
+        if (res.csrf) localStorage.setItem('auth_csrf', res.csrf);
         window.location.reload();
       } else {
         setLoginError('Invalid credentials. Please verify your email and MFA code.');
@@ -565,8 +566,14 @@ export function OwnerShellContent() {
                 <h1 className="text-lg sm:text-xl lg:text-2xl font-black text-[#063331] tracking-tight whitespace-nowrap">
                   Welcome Saumya!
                 </h1>
-                <div className="text-[11px] text-[#6c8f89] font-semibold hidden md:block whitespace-nowrap">
-                  Dodo Owner Dashboard / {activeSection.replace('-', ' ').toUpperCase()}
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-[11px] text-[#6c8f89] font-semibold hidden md:inline whitespace-nowrap">
+                    Dodo Owner Dashboard / {activeSection.replace('-', ' ').toUpperCase()}
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-800 border border-amber-300/60 shadow-2xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                    SANDBOX MODE (SIMULATED RAILS)
+                  </span>
                 </div>
               </div>
             </div>
@@ -640,6 +647,29 @@ export function OwnerShellContent() {
               </button>
             </div>
           </header>
+
+          {/* Explicit Sandbox Safety Disclaimer Banner */}
+          <div className="bg-gradient-to-r from-amber-50 via-amber-100/60 to-amber-50 border-b border-amber-200/70 px-5 sm:px-7 lg:px-8 py-2 flex items-center justify-between text-xs text-amber-900 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="font-bold uppercase tracking-wider text-[10px] px-1.5 py-0.5 rounded bg-amber-200/80 text-amber-950">
+                SANDBOX SIMULATION
+              </span>
+              <span className="font-medium text-[11px] sm:text-xs text-amber-950/80">
+                All transactions, mandates, and debits on this platform are simulated. No real money or bank accounts are accessed.
+              </span>
+            </div>
+            <div className="hidden md:flex items-center gap-2 text-[11px] font-semibold text-amber-900/70">
+              <span className="inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Gateway Lock: Active
+              </span>
+              <span className="text-amber-400">•</span>
+              <span className="inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                Live Rails: Offline
+              </span>
+            </div>
+          </div>
 
           {/* Dynamic Section View - Pixel-Perfect Alignment Matching Top Header */}
           <main className="flex-1 overflow-y-auto px-5 sm:px-7 lg:px-8 py-6 sm:py-8">
