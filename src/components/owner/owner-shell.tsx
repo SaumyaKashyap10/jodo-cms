@@ -134,21 +134,21 @@ export function OwnerShellContent() {
     }
   }, [activeSection]);
 
-  // Dedicated Owner Login Form State
+  // Dedicated Owner Login Form State - Pre-filled with valid credentials for 1-click authentication
   const [loginEmail, setLoginEmail] = useState('saumya@gmail.com');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [loginOtp, setLoginOtp] = useState('');
+  const [loginPassword, setLoginPassword] = useState('PlatformMaster2026!');
+  const [loginOtp, setLoginOtp] = useState('123456');
   const [showPassword, setShowPassword] = useState(false);
   const [loginBusy, setLoginBusy] = useState(false);
   const [loginError, setLoginError] = useState('');
 
-  const handleOwnerLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleOwnerLogin = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setLoginBusy(true);
     setLoginError('');
     try {
       const email = loginEmail.trim() || 'saumya@gmail.com';
-      const password = loginPassword.trim() || 'PlatformSecret2026!';
+      const password = loginPassword.trim() || 'PlatformMaster2026!';
       const otp = loginOtp.trim() || '123456';
       const res = await api<any>('/v1/auth/login', {
         method: 'POST',
@@ -175,7 +175,7 @@ export function OwnerShellContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#070e17] text-white">
+      <div style={{ backgroundColor: '#070e17' }} className="min-h-screen flex items-center justify-center text-white">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-xs text-slate-400 font-medium">Verifying Owner authorization…</p>
@@ -187,13 +187,16 @@ export function OwnerShellContent() {
   // Not authenticated as owner - Render sleek, modern, high-conversion Owner Login Screen
   if (!session || (session.user && session.user.role !== 'owner')) {
     return (
-      <main className="owner-cms-root min-h-screen flex items-center justify-center bg-[#070e17] px-4 py-6 relative overflow-hidden selection:bg-teal-500 selection:text-slate-950 font-sans">
+      <main
+        style={{ backgroundColor: '#070e17', minHeight: '100vh' }}
+        className="owner-cms-root min-h-screen flex items-center justify-center px-4 py-6 relative overflow-hidden selection:bg-teal-500 selection:text-slate-950 font-sans"
+      >
         {/* Ambient atmospheric glows */}
-        <div className="absolute w-[450px] h-[450px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none -top-20 -right-20" />
-        <div className="absolute w-[450px] h-[450px] bg-emerald-500/8 rounded-full blur-[120px] pointer-events-none -bottom-20 -left-20" />
+        <div className="absolute w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none -top-20 -right-20" />
+        <div className="absolute w-[500px] h-[500px] bg-emerald-500/8 rounded-full blur-[120px] pointer-events-none -bottom-20 -left-20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.4)_0,transparent_100%)] pointer-events-none" />
 
-        <div className="relative w-full max-w-[400px] bg-slate-900/90 border border-slate-800/90 rounded-3xl p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+        <div className="relative w-full max-w-[400px] bg-slate-900/95 border border-slate-800/90 rounded-3xl p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] backdrop-blur-xl">
           {/* Subtle top accent highlight */}
           <div className="absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-teal-400/50 to-transparent" />
 
@@ -248,7 +251,6 @@ export function OwnerShellContent() {
                 </div>
                 <input
                   type="email"
-                  required
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="saumya@gmail.com"
@@ -273,7 +275,6 @@ export function OwnerShellContent() {
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  required
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="••••••••••••••••"
@@ -309,7 +310,7 @@ export function OwnerShellContent() {
                 >
                   6-Digit Authenticator Code (MFA)
                 </label>
-                <span className="text-[10px] text-teal-400 font-mono">Demo: 123456</span>
+                <span className="text-[10px] text-teal-400 font-mono">Pre-filled: 123456</span>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -321,7 +322,6 @@ export function OwnerShellContent() {
                   type="text"
                   pattern="[0-9]{6}"
                   maxLength={6}
-                  required
                   value={loginOtp}
                   onChange={(e) => setLoginOtp(e.target.value)}
                   placeholder="123456"
@@ -351,7 +351,7 @@ export function OwnerShellContent() {
                 </div>
               </div>
               <span className="text-[10px] font-bold text-teal-400 group-hover:translate-x-0.5 transition-transform shrink-0">
-                Fill →
+                Reset →
               </span>
             </div>
 
