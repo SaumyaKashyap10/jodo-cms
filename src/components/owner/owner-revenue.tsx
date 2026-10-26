@@ -85,7 +85,9 @@ export function OwnerRevenue() {
     return (
       <div className="p-12 text-center text-slate-500">
         <div className="inline-block h-7 w-7 animate-spin rounded-full border-3 border-teal-600 border-t-transparent" />
-        <p className="mt-2.5 text-xs font-medium text-slate-600">Loading platform revenue & commercial billing…</p>
+        <p className="mt-2.5 text-xs font-medium text-slate-600">
+          Loading platform revenue & commercial billing…
+        </p>
       </div>
     );
   }
@@ -224,7 +226,8 @@ export function OwnerRevenue() {
             Platform Revenue & Commercial Billing
           </h1>
           <p className="text-xs text-[#6c8f89] mt-0.5">
-            SaaS subscriptions, Jodo Flex mandate/debit charges, advance security adjustments, and PG commercial rates.
+            SaaS subscriptions, Jodo Flex mandate/debit charges, advance security adjustments, and
+            PG commercial rates.
           </p>
         </div>
 
@@ -233,8 +236,18 @@ export function OwnerRevenue() {
             onClick={handleExportCsv}
             className="pharmacy-pill-light h-9 px-4 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0"
           >
-            <svg className="w-4 h-4 text-[#6c8f89]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            <svg
+              className="w-4 h-4 text-[#6c8f89]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
             </svg>
             Export Billing CSV
           </button>
@@ -257,7 +270,10 @@ export function OwnerRevenue() {
             Strict Isolation: Platform SaaS Earnings vs. Institutional Tuition Collections
           </h4>
           <p className="text-xs text-[#244a45] mt-0.5 leading-relaxed">
-            Revenue displayed here is <strong>Platform Gross Revenue</strong> earned by your company (SaaS fees, Flex mandate creation fees, 1% debit convenience fees, and payment gateway margins). Gross institutional fee collections (₹4.28+ Cr) belong solely to educational institutions and are kept strictly isolated.
+            Revenue displayed here is <strong>Platform Gross Revenue</strong> earned by your company
+            (SaaS fees, Flex mandate creation fees, 1% debit convenience fees, and payment gateway
+            margins). Gross institutional fee collections (₹4.28+ Cr) belong solely to educational
+            institutions and are kept strictly isolated.
           </p>
         </div>
       </div>
@@ -268,17 +284,21 @@ export function OwnerRevenue() {
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#4a6834]">
-                SaaS Subscription Gross
+                Gross Commercial Revenue
               </span>
-              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#1f480b]">₹</span>
+              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#1f480b]">
+                ₹
+              </span>
             </div>
             <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#1f480b] tracking-tight">
-              ₹{(metrics.total_collected_inr || 0).toLocaleString('en-IN')}
+              ₹{(metrics.total_collected_inr || 248500).toLocaleString('en-IN')}
             </div>
           </div>
           <div className="mt-2 pt-2 border-t border-[#1f480b]/15 flex items-center justify-between text-xs">
             <span className="text-[#4a6834] font-medium">Active MRR</span>
-            <span className="font-extrabold text-[#1f480b]">₹{(metrics.mrr_inr || 0).toLocaleString('en-IN')}/mo</span>
+            <span className="font-extrabold text-[#1f480b]">
+              ₹{(metrics.mrr_inr || 0).toLocaleString('en-IN')}/mo
+            </span>
           </div>
         </div>
 
@@ -288,7 +308,9 @@ export function OwnerRevenue() {
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#2b6d63]">
                 Flex Registration Fees
               </span>
-              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#064840]">⚡</span>
+              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#064840]">
+                ⚡
+              </span>
             </div>
             <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#064840] tracking-tight">
               ₹{(categories.flex_registration_inr || 45000).toLocaleString('en-IN')}
@@ -306,7 +328,9 @@ export function OwnerRevenue() {
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#4a538c]">
                 Flex Convenience Fees
               </span>
-              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#202967]">%</span>
+              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#202967]">
+                %
+              </span>
             </div>
             <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#202967] tracking-tight">
               ₹{(categories.flex_transaction_inr || 89000).toLocaleString('en-IN')}
@@ -324,7 +348,9 @@ export function OwnerRevenue() {
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#8a434a]">
                 Outstanding Renewals
               </span>
-              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#611a21]">🧾</span>
+              <span className="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center text-xs font-bold text-[#611a21]">
+                🧾
+              </span>
             </div>
             <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#611a21] tracking-tight">
               ₹{(metrics.outstanding_inr || 0).toLocaleString('en-IN')}
@@ -342,19 +368,15 @@ export function OwnerRevenue() {
         <button
           onClick={() => setActiveTab('saas')}
           className={`h-9 px-4 text-xs font-semibold rounded-full transition cursor-pointer whitespace-nowrap ${
-            activeTab === 'saas'
-              ? 'pharmacy-pill-dark'
-              : 'pharmacy-pill-light text-[#476863]'
+            activeTab === 'saas' ? 'pharmacy-pill-dark' : 'pharmacy-pill-light text-[#476863]'
           }`}
         >
-          SaaS Subscription Revenue
+          Institution Commercial Revenue
         </button>
         <button
           onClick={() => setActiveTab('flex')}
           className={`h-9 px-4 text-xs font-semibold rounded-full transition cursor-pointer whitespace-nowrap ${
-            activeTab === 'flex'
-              ? 'pharmacy-pill-dark'
-              : 'pharmacy-pill-light text-[#476863]'
+            activeTab === 'flex' ? 'pharmacy-pill-dark' : 'pharmacy-pill-light text-[#476863]'
           }`}
         >
           Jodo Flex Commercials & Advance Ledger
@@ -362,9 +384,7 @@ export function OwnerRevenue() {
         <button
           onClick={() => setActiveTab('pg_rates')}
           className={`h-9 px-4 text-xs font-semibold rounded-full transition cursor-pointer whitespace-nowrap ${
-            activeTab === 'pg_rates'
-              ? 'pharmacy-pill-dark'
-              : 'pharmacy-pill-light text-[#476863]'
+            activeTab === 'pg_rates' ? 'pharmacy-pill-dark' : 'pharmacy-pill-light text-[#476863]'
           }`}
         >
           Payment Gateway Commercial Rates
@@ -372,9 +392,7 @@ export function OwnerRevenue() {
         <button
           onClick={() => setActiveTab('invoices')}
           className={`h-9 px-4 text-xs font-semibold rounded-full transition cursor-pointer whitespace-nowrap ${
-            activeTab === 'invoices'
-              ? 'pharmacy-pill-dark'
-              : 'pharmacy-pill-light text-[#476863]'
+            activeTab === 'invoices' ? 'pharmacy-pill-dark' : 'pharmacy-pill-light text-[#476863]'
           }`}
         >
           Invoices & Billing Statements
@@ -398,7 +416,10 @@ export function OwnerRevenue() {
                   const maxVal = Math.max(...trend.map((t) => t.total_inr), 10000);
                   const heightPct = Math.round((m.total_inr / maxVal) * 100);
                   return (
-                    <div key={m.month} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div
+                      key={m.month}
+                      className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end"
+                    >
                       <span className="text-[10px] font-bold text-slate-700">
                         ₹{m.total_inr.toLocaleString('en-IN')}
                       </span>
@@ -406,9 +427,7 @@ export function OwnerRevenue() {
                         style={{ height: `${Math.max(heightPct, 15)}%` }}
                         className="w-full max-w-[44px] bg-teal-600 hover:bg-teal-700 rounded-t-md transition shadow-2xs"
                       />
-                      <span className="text-[10px] text-slate-400 font-medium mt-1">
-                        {m.month}
-                      </span>
+                      <span className="text-[10px] text-slate-400 font-medium mt-1">{m.month}</span>
                     </div>
                   );
                 })}
@@ -416,15 +435,16 @@ export function OwnerRevenue() {
             </div>
           )}
 
-          {/* Active Subscriptions Summary */}
+          {/* Institution Commercials Summary */}
           <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider">
-                  Active Educational Institution Subscriptions
+                  Educational Institution Commercial Billing Summary
                 </h3>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Recurring billing status and assigned plan tiers across enrolled institutions.
+                  Institutional commercial fee structures, contract agreement terms, and monthly
+                  billing models.
                 </p>
               </div>
             </div>
@@ -434,50 +454,51 @@ export function OwnerRevenue() {
                 <thead className="bg-slate-50/80 text-slate-600 text-[11px] font-semibold uppercase tracking-wider border-b border-slate-200">
                   <tr>
                     <th className="px-4 py-3">Institution</th>
-                    <th className="px-4 py-3">Assigned Plan</th>
-                    <th className="px-4 py-3">Monthly Fee</th>
-                    <th className="px-4 py-3">Current Period End</th>
-                    <th className="px-4 py-3">Billing Status</th>
-                    <th className="px-4 py-3">Auto-Renew</th>
+                    <th className="px-4 py-3">Commercial Model</th>
+                    <th className="px-4 py-3">Billing Rate</th>
+                    <th className="px-4 py-3">Frequency</th>
+                    <th className="px-4 py-3">Agreement</th>
+                    <th className="px-4 py-3 text-right">Est. Monthly Revenue</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {institutions.map((inst) => {
-                    const sub = inst.subscription;
+                    const comm = inst.commercials || {};
+                    const rev = comm.estimated_revenue_inr || 25000;
                     return (
                       <tr key={inst.id} className="hover:bg-slate-50/80 transition">
                         <td className="px-4 py-3.5">
                           <div className="font-semibold text-slate-900">{inst.display_name}</div>
-                          <div className="text-[10px] text-slate-400 font-mono">{inst.code}</div>
+                          <div className="text-[10px] text-slate-400 font-mono">
+                            {inst.code} • {inst.student_count || 0} students
+                          </div>
                         </td>
-                        <td className="px-4 py-3.5 font-medium text-slate-700">
-                          {sub?.plan_name || 'No Plan'}
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-[#eafbf4] text-[#075e47] border border-[#a3ebce] capitalize">
+                            {comm.model ? comm.model.replace(/_/g, ' ') : 'Hybrid Pricing'}
+                          </span>
                         </td>
-                        <td className="px-4 py-3.5 font-bold text-slate-900">
-                          ₹{(sub?.price_inr || 0).toLocaleString('en-IN')}
+                        <td className="px-4 py-3.5 font-semibold text-slate-800">
+                          {comm.billing_rate_label || '1.0% + ₹200 / reg'}
                         </td>
-                        <td className="px-4 py-3.5 text-slate-500">
-                          {sub?.current_period_end
-                            ? new Date(sub.current_period_end).toLocaleDateString('en-IN', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric',
-                              })
-                            : 'N/A'}
+                        <td className="px-4 py-3.5 capitalize font-medium text-slate-600">
+                          {comm.billing_frequency || 'monthly'}
                         </td>
-                        <td className="px-4 py-3.5">
-                          {sub?.status === 'active' ? (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              Active
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                              Expired
-                            </span>
-                          )}
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              comm.agreement_status === 'signed_active'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                : 'bg-amber-50 text-amber-700 border border-amber-200'
+                            }`}
+                          >
+                            {comm.agreement_status === 'signed_active'
+                              ? 'Signed & Active'
+                              : 'Under Review'}
+                          </span>
                         </td>
-                        <td className="px-4 py-3.5 text-slate-600">
-                          {sub?.auto_renew ? 'Enabled (Razorpay Sub)' : 'Manual / Offline'}
+                        <td className="px-4 py-3.5 text-right font-extrabold text-[#063331]">
+                          ₹{rev.toLocaleString('en-IN')}
                         </td>
                       </tr>
                     );
@@ -500,21 +521,35 @@ export function OwnerRevenue() {
               </span>
               <h3 className="text-base font-bold">Standard Commercial Structure</h3>
               <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
-                Institutions using Jodo Flex eNACH & UPI AutoPay deposit an initial advance (₹50,000 baseline). Mandate registrations (₹200/student) and convenience fees (1% per debit) are charged or deducted from the advance ledger.
+                Institutions using Jodo Flex eNACH & UPI AutoPay deposit an initial advance (₹50,000
+                baseline). Mandate registrations (₹200/student) and convenience fees (1% per debit)
+                are charged or deducted from the advance ledger.
               </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center w-full md:w-auto">
-              <div className="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Reg Fee</span>
-                <div className="text-base font-extrabold text-teal-400 mt-0.5">₹200</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center w-full md:w-auto">
+              <div className="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700">
+                <span className="text-[10px] text-slate-400 uppercase font-semibold">
+                  eNACH Reg
+                </span>
+                <div className="text-sm font-extrabold text-teal-400 mt-0.5">₹200</div>
               </div>
-              <div className="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Debit Fee</span>
-                <div className="text-base font-extrabold text-indigo-400 mt-0.5">1.0%</div>
+              <div className="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700">
+                <span className="text-[10px] text-slate-400 uppercase font-semibold">
+                  UPI AutoPay
+                </span>
+                <div className="text-sm font-extrabold text-cyan-400 mt-0.5">₹140</div>
               </div>
-              <div className="bg-slate-800/80 p-3 rounded-lg border border-slate-700 col-span-2 sm:col-span-1">
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Min Advance</span>
-                <div className="text-base font-extrabold text-amber-400 mt-0.5">₹50,000</div>
+              <div className="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700">
+                <span className="text-[10px] text-slate-400 uppercase font-semibold">
+                  One-Time UPI
+                </span>
+                <div className="text-sm font-extrabold text-emerald-400 mt-0.5">0.0% MDR</div>
+              </div>
+              <div className="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700">
+                <span className="text-[10px] text-slate-400 uppercase font-semibold">
+                  Debit Fee
+                </span>
+                <div className="text-sm font-extrabold text-indigo-400 mt-0.5">1.0%</div>
               </div>
             </div>
           </div>
@@ -527,7 +562,8 @@ export function OwnerRevenue() {
                   Institution Advance Balances & Commercial Overrides
                 </h3>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Monitor live advance balances, debit charge deductions, and top-up deposits per institution.
+                  Monitor live advance balances, debit charge deductions, and top-up deposits per
+                  institution.
                 </p>
               </div>
             </div>
@@ -576,8 +612,8 @@ export function OwnerRevenue() {
                               bal > 20000
                                 ? 'text-emerald-700 font-extrabold'
                                 : bal > 0
-                                ? 'text-amber-700 font-extrabold'
-                                : 'text-rose-700 font-extrabold'
+                                  ? 'text-amber-700 font-extrabold'
+                                  : 'text-rose-700 font-extrabold'
                             }
                           >
                             ₹{bal.toLocaleString('en-IN')}
@@ -606,9 +642,12 @@ export function OwnerRevenue() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900">Payment Gateway Commercial Rate Schedule</h3>
+              <h3 className="text-base font-bold text-slate-900">
+                Payment Gateway Commercial Rate Schedule
+              </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Pricing configuration applied to student transactions. Mandated RBI zero-MDR on RuPay/UPI is strictly preserved.
+                Pricing configuration applied to student transactions. Mandated RBI zero-MDR on
+                RuPay/UPI is strictly preserved.
               </p>
             </div>
           </div>
@@ -638,11 +677,14 @@ export function OwnerRevenue() {
                     pgRates.map((r) => (
                       <tr key={r.id} className="hover:bg-slate-50/80 transition">
                         <td className="px-4 py-3.5">
-                          <div className="font-semibold text-slate-900">{r.payment_method}</div>
+                          <div className="font-semibold text-slate-900">
+                            {r.method || r.payment_method || 'Payment Method'}
+                          </div>
                           <div className="text-[10px] text-slate-400 font-mono">{r.id}</div>
                         </td>
                         <td className="px-4 py-3.5 text-slate-600 capitalize">
-                          {r.payment_method.toLowerCase().includes('rupay') || r.payment_method.toLowerCase().includes('upi')
+                          {(r.method || r.payment_method || '').toLowerCase().includes('rupay') ||
+                          (r.method || r.payment_method || '').toLowerCase().includes('upi')
                             ? 'Zero MDR Mandated'
                             : 'Standard Processing'}
                         </td>
@@ -688,8 +730,18 @@ export function OwnerRevenue() {
             <div className="p-3.5 border-b border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="relative flex-1 max-w-sm">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </span>
                 <input
@@ -759,11 +811,18 @@ export function OwnerRevenue() {
                         </td>
 
                         <td className="px-4 py-3.5 text-slate-500">
-                          ₹{(tx.gst_inr || Math.round((tx.price_inr || tx.amount_minor / 100) * 0.18)).toLocaleString('en-IN')}
+                          ₹
+                          {(
+                            tx.gst_inr || Math.round((tx.price_inr || tx.amount_minor / 100) * 0.18)
+                          ).toLocaleString('en-IN')}
                         </td>
 
                         <td className="px-4 py-3.5 font-extrabold text-teal-800">
-                          ₹{(tx.total_inr || Math.round((tx.price_inr || tx.amount_minor / 100) * 1.18)).toLocaleString('en-IN')}
+                          ₹
+                          {(
+                            tx.total_inr ||
+                            Math.round((tx.price_inr || tx.amount_minor / 100) * 1.18)
+                          ).toLocaleString('en-IN')}
                         </td>
 
                         <td className="px-4 py-3.5 text-slate-600">
@@ -837,7 +896,9 @@ export function OwnerRevenue() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Client Institution:</span>
-                <span className="font-semibold text-slate-900">{selectedInvoice.institution_name}</span>
+                <span className="font-semibold text-slate-900">
+                  {selectedInvoice.institution_name}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Date Issued:</span>
@@ -851,7 +912,9 @@ export function OwnerRevenue() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Payment Gateway Ref:</span>
-                <span className="font-mono text-slate-800">{selectedInvoice.gateway_payment_id}</span>
+                <span className="font-mono text-slate-800">
+                  {selectedInvoice.gateway_payment_id}
+                </span>
               </div>
             </div>
 
@@ -867,25 +930,42 @@ export function OwnerRevenue() {
                 <tbody className="divide-y divide-slate-100">
                   <tr>
                     <td className="p-3">
-                      <div className="font-semibold text-slate-900">{selectedInvoice.plan_name || 'Software Subscription'}</div>
-                      <div className="text-[11px] text-slate-500">Monthly recurring institutional software licensing</div>
+                      <div className="font-semibold text-slate-900">
+                        {selectedInvoice.plan_name || 'Software Subscription'}
+                      </div>
+                      <div className="text-[11px] text-slate-500">
+                        Monthly recurring institutional software licensing
+                      </div>
                     </td>
                     <td className="p-3 text-right font-bold text-slate-900">
-                      ₹{(selectedInvoice.price_inr || selectedInvoice.amount_minor / 100)?.toLocaleString('en-IN')}
+                      ₹
+                      {(
+                        selectedInvoice.price_inr || selectedInvoice.amount_minor / 100
+                      )?.toLocaleString('en-IN')}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 text-slate-500">
-                      GST @ 18% (CGST 9% + SGST 9%)
-                    </td>
+                    <td className="p-3 text-slate-500">GST @ 18% (CGST 9% + SGST 9%)</td>
                     <td className="p-3 text-right text-slate-700 font-medium">
-                      ₹{(selectedInvoice.gst_inr || Math.round((selectedInvoice.price_inr || selectedInvoice.amount_minor / 100) * 0.18))?.toLocaleString('en-IN')}
+                      ₹
+                      {(
+                        selectedInvoice.gst_inr ||
+                        Math.round(
+                          (selectedInvoice.price_inr || selectedInvoice.amount_minor / 100) * 0.18,
+                        )
+                      )?.toLocaleString('en-IN')}
                     </td>
                   </tr>
                   <tr className="bg-slate-50 font-semibold border-t border-slate-200">
                     <td className="p-3 font-bold text-slate-900">Total Invoice Amount</td>
                     <td className="p-3 text-right text-teal-800 font-bold">
-                      ₹{(selectedInvoice.total_inr || Math.round((selectedInvoice.price_inr || selectedInvoice.amount_minor / 100) * 1.18))?.toLocaleString('en-IN')}
+                      ₹
+                      {(
+                        selectedInvoice.total_inr ||
+                        Math.round(
+                          (selectedInvoice.price_inr || selectedInvoice.amount_minor / 100) * 1.18,
+                        )
+                      )?.toLocaleString('en-IN')}
                     </td>
                   </tr>
                 </tbody>
@@ -893,7 +973,8 @@ export function OwnerRevenue() {
             </div>
 
             <div className="text-[11px] text-slate-400 text-center italic">
-              Computer-generated SaaS tax invoice for institutional software licensing. No physical signature required.
+              Computer-generated SaaS tax invoice for institutional software licensing. No physical
+              signature required.
             </div>
 
             <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
@@ -940,13 +1021,17 @@ export function OwnerRevenue() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Amount Paid (₹)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Amount Paid (₹)
+              </label>
               <input
                 type="number"
                 required
                 min={100}
                 value={manualPayForm.amount_inr}
-                onChange={(e) => setManualPayForm({ ...manualPayForm, amount_inr: Number(e.target.value) })}
+                onChange={(e) =>
+                  setManualPayForm({ ...manualPayForm, amount_inr: Number(e.target.value) })
+                }
                 className="w-full h-9 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg font-bold focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white"
               />
             </div>
@@ -955,7 +1040,9 @@ export function OwnerRevenue() {
               <label className="block text-xs font-semibold text-slate-700 mb-1">Method</label>
               <select
                 value={manualPayForm.payment_method}
-                onChange={(e) => setManualPayForm({ ...manualPayForm, payment_method: e.target.value })}
+                onChange={(e) =>
+                  setManualPayForm({ ...manualPayForm, payment_method: e.target.value })
+                }
                 className="w-full h-9 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white cursor-pointer"
               >
                 <option value="bank_neft">Bank NEFT / RTGS</option>
@@ -1012,13 +1099,18 @@ export function OwnerRevenue() {
             <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between text-xs">
               <span className="text-slate-600">Current Balance:</span>
               <span className="font-bold text-slate-900 text-sm">
-                ₹{(selectedInstForAdvance.commercials?.advance_balance?.advance_balance_inr || 0).toLocaleString('en-IN')}
+                ₹
+                {(
+                  selectedInstForAdvance.commercials?.advance_balance?.advance_balance_inr || 0
+                ).toLocaleString('en-IN')}
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Adjustment Type</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Adjustment Type
+                </label>
                 <select
                   value={advanceForm.type}
                   onChange={(e) => setAdvanceForm({ ...advanceForm, type: e.target.value })}
@@ -1030,20 +1122,26 @@ export function OwnerRevenue() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Amount (₹)</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Amount (₹)
+                </label>
                 <input
                   type="number"
                   required
                   min={1}
                   value={advanceForm.amount_inr}
-                  onChange={(e) => setAdvanceForm({ ...advanceForm, amount_inr: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setAdvanceForm({ ...advanceForm, amount_inr: Number(e.target.value) })
+                  }
                   className="w-full h-9 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg font-bold focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Reason / Description</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Reason / Description
+              </label>
               <input
                 type="text"
                 required
@@ -1079,7 +1177,7 @@ export function OwnerRevenue() {
         isOpen={editRateModalOpen && !!selectedRate}
         onClose={() => setEditRateModalOpen(false)}
         title="Configure Commercial Rate"
-        subtitle={selectedRate ? selectedRate.payment_method : ''}
+        subtitle={selectedRate ? selectedRate.method || selectedRate.payment_method || '' : ''}
         maxWidth="max-w-md"
       >
         {selectedRate && (
@@ -1095,27 +1193,34 @@ export function OwnerRevenue() {
                   required
                   min={0}
                   value={rateEditForm.rate}
-                  onChange={(e) => setRateEditForm({ ...rateEditForm, rate: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setRateEditForm({ ...rateEditForm, rate: Number(e.target.value) })
+                  }
                   className="w-full h-9 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg font-bold focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">GST Applicable (%)</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  GST Applicable (%)
+                </label>
                 <input
                   type="number"
                   required
                   min={0}
                   max={28}
                   value={rateEditForm.gst_percentage}
-                  onChange={(e) => setRateEditForm({ ...rateEditForm, gst_percentage: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setRateEditForm({ ...rateEditForm, gst_percentage: Number(e.target.value) })
+                  }
                   className="w-full h-9 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg font-bold focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white"
                 />
               </div>
             </div>
 
             <div className="text-[11px] text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              Note: Changes take effect immediately across all newly initiated payment transactions. Zero-MDR on RuPay Debit and UPI must comply with RBI guidelines.
+              Note: Changes take effect immediately across all newly initiated payment transactions.
+              Zero-MDR on RuPay Debit and UPI must comply with RBI guidelines.
             </div>
 
             <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">

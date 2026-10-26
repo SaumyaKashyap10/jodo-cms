@@ -375,7 +375,7 @@ export function OwnerPaymentProviders() {
                 Active Domestic Payment Rails
               </span>
               <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                {['UPI AutoPay Recurring', 'NPCI eNACH Netbanking', 'RuPay / Visa / Mastercard', 'Direct Bank Settlement', 'Platform Subscription Billing'].map(
+                {['eNACH (NPCI Standing Instructions)', 'UPI AutoPay (UPI 2.0 Recurring)', 'One-Time UPI (Instant QR / Collect)', 'RuPay / Visa / Mastercard', 'Direct Net Banking Settlement'].map(
                   (r) => (
                     <span
                       key={r}

@@ -38,15 +38,49 @@ export interface SubscriptionPlan {
 }
 
 export interface InstitutionProductConfig {
-  fms: { enabled: boolean; status: 'operational' | 'pending_approval' | 'disabled'; approved_at?: string };
-  flex_enach: { enabled: boolean; status: 'operational' | 'sandbox' | 'disabled'; readiness: 'live_ready' | 'sandbox_mode' | 'bank_approval_pending' };
-  flex_autopay: { enabled: boolean; status: 'operational' | 'sandbox' | 'disabled'; readiness: 'live_ready' | 'sandbox_mode' | 'vpa_pending' };
+  fms: {
+    enabled: boolean;
+    status: 'operational' | 'pending_approval' | 'disabled';
+    approved_at?: string;
+  };
+  flex_enach: {
+    enabled: boolean;
+    status: 'operational' | 'sandbox' | 'disabled';
+    readiness: 'live_ready' | 'sandbox_mode' | 'bank_approval_pending';
+  };
+  flex_autopay: {
+    enabled: boolean;
+    status: 'operational' | 'sandbox' | 'disabled';
+    readiness: 'live_ready' | 'sandbox_mode' | 'vpa_pending';
+  };
   payment_gateway: { enabled: boolean; status: 'operational' | 'disabled'; provider: string };
   virtual_accounts: { enabled: boolean; status: 'operational' | 'disabled' };
   split_settlements: { enabled: boolean; status: 'operational' | 'disabled' };
 }
 
 export interface InstitutionCommercials {
+  model?:
+    | 'fixed_institution_fee'
+    | 'per_active_student'
+    | 'per_enach_mandate'
+    | 'per_autopay_mandate'
+    | 'per_successful_debit'
+    | 'percentage_of_collections'
+    | 'hybrid';
+  billing_rate_label?: string;
+  provider_cost_label?: string;
+  billing_frequency?: 'monthly' | 'quarterly' | 'annually' | 'per_batch';
+  agreement_status?: 'signed_active' | 'under_review' | 'draft' | 'renewal_pending';
+  effective_date: string;
+  estimated_revenue_inr?: number;
+  estimated_provider_cost_inr?: number;
+  estimated_margin_inr?: number;
+  estimated_margin_pct?: number;
+  fixed_fee_inr?: number;
+  rate_percentage?: number;
+  per_student_fee_inr?: number;
+  per_mandate_fee_inr?: number;
+  per_debit_fee_inr?: number;
   enach_registration_fee_inr: number;
   enach_gst_percentage: number;
   flex_debit_fee_percentage: number;
@@ -54,7 +88,6 @@ export interface InstitutionCommercials {
   initial_advance_inr: number;
   initial_advance_gst_percentage: number;
   settlement_cycle: 'T+1' | 'T+2';
-  effective_date: string;
   advance_balance: {
     advance_received_inr: number;
     advance_balance_inr: number;
@@ -101,7 +134,12 @@ export interface Institution {
   student_count: number;
   staff_count: number;
   campuses: Array<{ code: string; name: string; city: string; state: string; status: string }>;
-  legal_entities: Array<{ name: string; registration_reference: string; tax_reference_masked: string; status: string }>;
+  legal_entities: Array<{
+    name: string;
+    registration_reference: string;
+    tax_reference_masked: string;
+    status: string;
+  }>;
   members: Array<{ id: string; email: string; role_key: string; status: string }>;
   subscription: {
     plan_id: string;
@@ -189,7 +227,15 @@ export const OWNER_PLANS: SubscriptionPlan[] = [
     student_limit: 2500,
     campus_limit: 3,
     description: 'Automated recurring collections with eNACH Flex AutoPay and branded receipts',
-    features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'email_alerts', 'enach_autopay', 'custom_branding', 'bulk_actions'],
+    features: [
+      'direct_payments',
+      'standard_receipts',
+      'installments_tracker',
+      'email_alerts',
+      'enach_autopay',
+      'custom_branding',
+      'bulk_actions',
+    ],
     product_entitlements: {
       fms: true,
       flex_enach: true,
@@ -214,7 +260,18 @@ export const OWNER_PLANS: SubscriptionPlan[] = [
     student_limit: 10000,
     campus_limit: 10,
     description: 'Full institutional multi-campus governance, forecasting and custom webhooks',
-    features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'email_alerts', 'enach_autopay', 'custom_branding', 'bulk_actions', 'multi_campus', 'advanced_analytics', 'developer_api'],
+    features: [
+      'direct_payments',
+      'standard_receipts',
+      'installments_tracker',
+      'email_alerts',
+      'enach_autopay',
+      'custom_branding',
+      'bulk_actions',
+      'multi_campus',
+      'advanced_analytics',
+      'developer_api',
+    ],
     product_entitlements: {
       fms: true,
       flex_enach: true,
@@ -232,15 +289,87 @@ export const OWNER_PLANS: SubscriptionPlan[] = [
 ];
 
 export const OWNER_PG_RATES: PaymentGatewayRate[] = [
-  { id: 'rate_rupay', method: 'RuPay Debit Card', category: 'Domestic Debit', fee_type: 'percentage', rate: 0.0, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_visa_mc_debit', method: 'Mastercard / Visa Debit Card', category: 'Domestic Debit', fee_type: 'percentage', rate: 1.0, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_visa_mc_credit', method: 'Mastercard / Visa Credit Card', category: 'Domestic Credit', fee_type: 'percentage', rate: 1.5, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_corp_credit', method: 'Corporate Credit Card', category: 'Commercial Credit', fee_type: 'percentage', rate: 2.5, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_intl_card', method: 'International Credit Card', category: 'Cross-Border', fee_type: 'percentage', rate: 2.5, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_netb_selected', method: 'Net Banking — Selected Tier-1 Banks', category: 'Net Banking', fee_type: 'percentage', rate: 1.55, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_netb_other', method: 'Net Banking — Other Commercial Banks', category: 'Net Banking', fee_type: 'fixed', rate: 20.0, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_upi', method: 'Unified Payments Interface (UPI)', category: 'Instant Rails', fee_type: 'percentage', rate: 0.0, gst_percentage: 18, effective_date: '2026-04-01' },
-  { id: 'rate_wallets', method: 'Prepaid Digital Wallets', category: 'PPI Wallets', fee_type: 'percentage', rate: 2.0, gst_percentage: 18, effective_date: '2026-04-01' },
+  {
+    id: 'rate_rupay',
+    method: 'RuPay Debit Card',
+    category: 'Domestic Debit',
+    fee_type: 'percentage',
+    rate: 0.0,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_visa_mc_debit',
+    method: 'Mastercard / Visa Debit Card',
+    category: 'Domestic Debit',
+    fee_type: 'percentage',
+    rate: 1.0,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_visa_mc_credit',
+    method: 'Mastercard / Visa Credit Card',
+    category: 'Domestic Credit',
+    fee_type: 'percentage',
+    rate: 1.5,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_corp_credit',
+    method: 'Corporate Credit Card',
+    category: 'Commercial Credit',
+    fee_type: 'percentage',
+    rate: 2.5,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_intl_card',
+    method: 'International Credit Card',
+    category: 'Cross-Border',
+    fee_type: 'percentage',
+    rate: 2.5,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_netb_selected',
+    method: 'Net Banking — Selected Tier-1 Banks',
+    category: 'Net Banking',
+    fee_type: 'percentage',
+    rate: 1.55,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_netb_other',
+    method: 'Net Banking — Other Commercial Banks',
+    category: 'Net Banking',
+    fee_type: 'fixed',
+    rate: 20.0,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_upi',
+    method: 'Unified Payments Interface (UPI)',
+    category: 'Instant Rails',
+    fee_type: 'percentage',
+    rate: 0.0,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
+  {
+    id: 'rate_wallets',
+    method: 'Prepaid Digital Wallets',
+    category: 'PPI Wallets',
+    fee_type: 'percentage',
+    rate: 2.0,
+    gst_percentage: 18,
+    effective_date: '2026-04-01',
+  },
 ];
 
 export const OWNER_DEFAULT_FLEX_COMMERCIALS = {
@@ -273,15 +402,37 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 342,
     staff_count: 8,
     campuses: [
-      { code: 'DEL-MAIN', name: 'Delhi Main Campus (Mathura Road)', city: 'New Delhi', state: 'Delhi', status: 'active' },
-      { code: 'DEL-SOUTH', name: 'Delhi South Campus (RK Puram)', city: 'New Delhi', state: 'Delhi', status: 'active' },
+      {
+        code: 'DEL-MAIN',
+        name: 'Delhi Main Campus (Mathura Road)',
+        city: 'New Delhi',
+        state: 'Delhi',
+        status: 'active',
+      },
+      {
+        code: 'DEL-SOUTH',
+        name: 'Delhi South Campus (RK Puram)',
+        city: 'New Delhi',
+        state: 'Delhi',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: 'DPS Educational Society', registration_reference: 'REG-DEL-2011-8841', tax_reference_masked: 'AAAAA••••A', status: 'active' },
+      {
+        name: 'DPS Educational Society',
+        registration_reference: 'REG-DEL-2011-8841',
+        tax_reference_masked: 'AAAAA••••A',
+        status: 'active',
+      },
     ],
     members: [
       { id: 'usr-demo-owner', email: 'saumya@gmail.com', role_key: 'owner', status: 'active' },
-      { id: 'usr-staff-1', email: 'accounts@dps-demo.invalid', role_key: 'finance_maker', status: 'active' },
+      {
+        id: 'usr-staff-1',
+        email: 'accounts@dps-demo.invalid',
+        role_key: 'finance_maker',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_growth',
@@ -293,7 +444,14 @@ export const OWNER_INSTITUTIONS: Institution[] = [
       current_period_start: '2026-10-01T00:00:00Z',
       current_period_end: '2026-11-01T00:00:00Z',
       auto_renew: true,
-      features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'enach_autopay', 'custom_branding', 'bulk_actions'],
+      features: [
+        'direct_payments',
+        'standard_receipts',
+        'installments_tracker',
+        'enach_autopay',
+        'custom_branding',
+        'bulk_actions',
+      ],
     },
     products_config: {
       fms: { enabled: true, status: 'operational', approved_at: '2026-04-16T10:00:00Z' },
@@ -305,16 +463,46 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'hybrid',
+      billing_rate_label: '1.0% + ₹200 / mandate registration',
+      provider_cost_label: '₹5.00 / mandate (NPCI) + 0.40% PG interchange',
+      billing_frequency: 'monthly',
+      agreement_status: 'signed_active',
       effective_date: '2026-04-15',
+      estimated_revenue_inr: 84500,
+      estimated_provider_cost_inr: 22100,
+      estimated_margin_inr: 62400,
+      estimated_margin_pct: 73.8,
       advance_balance: {
         advance_received_inr: 59000,
         advance_balance_inr: 42500,
         charges_applied_inr: 16500,
         last_adjusted_at: '2026-10-22T09:15:00Z',
         adjustment_history: [
-          { id: 'adj_1', date: '2026-04-15', type: 'credit', amount_inr: 59000, description: 'Initial Flex Security Advance (₹50k + 18% GST)', balance_after_inr: 59000 },
-          { id: 'adj_2', date: '2026-07-31', type: 'debit', amount_inr: 9440, description: '40 Flex student eNACH registration fees', balance_after_inr: 49560 },
-          { id: 'adj_3', date: '2026-10-22', type: 'debit', amount_inr: 7060, description: 'October Flex debit transaction charges (1% + GST)', balance_after_inr: 42500 },
+          {
+            id: 'adj_1',
+            date: '2026-04-15',
+            type: 'credit',
+            amount_inr: 59000,
+            description: 'Initial Flex Security Advance (₹50k + 18% GST)',
+            balance_after_inr: 59000,
+          },
+          {
+            id: 'adj_2',
+            date: '2026-07-31',
+            type: 'debit',
+            amount_inr: 9440,
+            description: '40 Flex student eNACH registration fees',
+            balance_after_inr: 49560,
+          },
+          {
+            id: 'adj_3',
+            date: '2026-10-22',
+            type: 'debit',
+            amount_inr: 7060,
+            description: 'October Flex debit transaction charges (1% + GST)',
+            balance_after_inr: 42500,
+          },
         ],
       },
     },
@@ -348,13 +536,29 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 185,
     staff_count: 5,
     campuses: [
-      { code: 'BLR-SOUTH', name: 'Bangalore South Campus (Kanakapura Rd)', city: 'Bengaluru', state: 'Karnataka', status: 'active' },
+      {
+        code: 'BLR-SOUTH',
+        name: 'Bangalore South Campus (Kanakapura Rd)',
+        city: 'Bengaluru',
+        state: 'Karnataka',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: 'South Bangalore Educational Trust', registration_reference: 'REG-BLR-2015-3210', tax_reference_masked: 'AAACB••••B', status: 'active' },
+      {
+        name: 'South Bangalore Educational Trust',
+        registration_reference: 'REG-BLR-2015-3210',
+        tax_reference_masked: 'AAACB••••B',
+        status: 'active',
+      },
     ],
     members: [
-      { id: 'usr-blr-admin', email: 'admin@dpsblr.example.invalid', role_key: 'owner', status: 'active' },
+      {
+        id: 'usr-blr-admin',
+        email: 'admin@dpsblr.example.invalid',
+        role_key: 'owner',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_starter',
@@ -378,7 +582,16 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'per_active_student',
+      billing_rate_label: '₹35.00 / active student / month',
+      provider_cost_label: '₹8.00 / student infra & notification rail',
+      billing_frequency: 'monthly',
+      agreement_status: 'signed_active',
       effective_date: '2026-06-20',
+      estimated_revenue_inr: 6475,
+      estimated_provider_cost_inr: 1480,
+      estimated_margin_inr: 4995,
+      estimated_margin_pct: 77.1,
       advance_balance: {
         advance_received_inr: 0,
         advance_balance_inr: 0,
@@ -409,7 +622,7 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     contact_email: 'finance@greenwood.example.invalid',
     contact_phone: '+91 20 2741 8899',
     registered_address: 'Survey 44, Talegaon Dabhade, Pune, Maharashtra 410507',
-    institution_admin_name: 'Aloysius D\'Souza',
+    institution_admin_name: "Aloysius D'Souza",
     onboarding_date: '2026-07-08T14:15:00Z',
     verification_status: 'verified',
     contract_status: 'signed_active',
@@ -417,15 +630,43 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 720,
     staff_count: 12,
     campuses: [
-      { code: 'GW-CENTRAL', name: 'Greenwood Central Campus', city: 'Pune', state: 'Maharashtra', status: 'active' },
-      { code: 'GW-WEST', name: 'Greenwood West Valley', city: 'Pune', state: 'Maharashtra', status: 'active' },
-      { code: 'GW-NORTH', name: 'Greenwood North Hill', city: 'Mumbai', state: 'Maharashtra', status: 'active' },
+      {
+        code: 'GW-CENTRAL',
+        name: 'Greenwood Central Campus',
+        city: 'Pune',
+        state: 'Maharashtra',
+        status: 'active',
+      },
+      {
+        code: 'GW-WEST',
+        name: 'Greenwood West Valley',
+        city: 'Pune',
+        state: 'Maharashtra',
+        status: 'active',
+      },
+      {
+        code: 'GW-NORTH',
+        name: 'Greenwood North Hill',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: 'Greenwood Global Foundations', registration_reference: 'REG-MAH-2018-9921', tax_reference_masked: 'AAACG••••C', status: 'active' },
+      {
+        name: 'Greenwood Global Foundations',
+        registration_reference: 'REG-MAH-2018-9921',
+        tax_reference_masked: 'AAACG••••C',
+        status: 'active',
+      },
     ],
     members: [
-      { id: 'usr-gw-finance', email: 'finance@greenwood.example.invalid', role_key: 'owner', status: 'active' },
+      {
+        id: 'usr-gw-finance',
+        email: 'finance@greenwood.example.invalid',
+        role_key: 'owner',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_enterprise',
@@ -437,7 +678,17 @@ export const OWNER_INSTITUTIONS: Institution[] = [
       current_period_start: '2026-10-05T00:00:00Z',
       current_period_end: '2026-11-05T00:00:00Z',
       auto_renew: true,
-      features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'enach_autopay', 'custom_branding', 'bulk_actions', 'multi_campus', 'advanced_analytics', 'developer_api'],
+      features: [
+        'direct_payments',
+        'standard_receipts',
+        'installments_tracker',
+        'enach_autopay',
+        'custom_branding',
+        'bulk_actions',
+        'multi_campus',
+        'advanced_analytics',
+        'developer_api',
+      ],
     },
     products_config: {
       fms: { enabled: true, status: 'operational', approved_at: '2026-07-09T10:00:00Z' },
@@ -449,15 +700,38 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'percentage_of_collections',
+      billing_rate_label: '0.85% of gross fee collections',
+      provider_cost_label: '0.30% PG settlement interchange',
+      billing_frequency: 'monthly',
+      agreement_status: 'signed_active',
       effective_date: '2026-07-08',
+      estimated_revenue_inr: 78500,
+      estimated_provider_cost_inr: 27700,
+      estimated_margin_inr: 50800,
+      estimated_margin_pct: 64.7,
       advance_balance: {
         advance_received_inr: 59000,
         advance_balance_inr: 51200,
         charges_applied_inr: 7800,
         last_adjusted_at: '2026-10-18T10:00:00Z',
         adjustment_history: [
-          { id: 'adj_gw_1', date: '2026-07-08', type: 'credit', amount_inr: 59000, description: 'Initial Flex Security Advance', balance_after_inr: 59000 },
-          { id: 'adj_gw_2', date: '2026-10-18', type: 'debit', amount_inr: 7800, description: 'September Flex transaction fees', balance_after_inr: 51200 },
+          {
+            id: 'adj_gw_1',
+            date: '2026-07-08',
+            type: 'credit',
+            amount_inr: 59000,
+            description: 'Initial Flex Security Advance',
+            balance_after_inr: 59000,
+          },
+          {
+            id: 'adj_gw_2',
+            date: '2026-10-18',
+            type: 'debit',
+            amount_inr: 7800,
+            description: 'September Flex transaction fees',
+            balance_after_inr: 51200,
+          },
         ],
       },
     },
@@ -491,13 +765,29 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 420,
     staff_count: 6,
     campuses: [
-      { code: 'STX-HYD', name: 'Abids Main Campus', city: 'Hyderabad', state: 'Telangana', status: 'active' },
+      {
+        code: 'STX-HYD',
+        name: 'Abids Main Campus',
+        city: 'Hyderabad',
+        state: 'Telangana',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: "St. Xavier's Education Mission", registration_reference: 'REG-TEL-2009-4112', tax_reference_masked: 'AAACX••••D', status: 'active' },
+      {
+        name: "St. Xavier's Education Mission",
+        registration_reference: 'REG-TEL-2009-4112',
+        tax_reference_masked: 'AAACX••••D',
+        status: 'active',
+      },
     ],
     members: [
-      { id: 'usr-stx-bursar', email: 'bursar@stxaviers.example.invalid', role_key: 'owner', status: 'active' },
+      {
+        id: 'usr-stx-bursar',
+        email: 'bursar@stxaviers.example.invalid',
+        role_key: 'owner',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_growth',
@@ -509,7 +799,14 @@ export const OWNER_INSTITUTIONS: Institution[] = [
       current_period_start: '2026-09-28T00:00:00Z',
       current_period_end: '2026-10-28T00:00:00Z',
       auto_renew: true,
-      features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'enach_autopay', 'custom_branding', 'bulk_actions'],
+      features: [
+        'direct_payments',
+        'standard_receipts',
+        'installments_tracker',
+        'enach_autopay',
+        'custom_branding',
+        'bulk_actions',
+      ],
     },
     products_config: {
       fms: { enabled: true, status: 'operational', approved_at: '2026-08-13T12:00:00Z' },
@@ -521,15 +818,38 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'per_enach_mandate',
+      billing_rate_label: '₹220 / registered mandate + ₹12 / debit',
+      provider_cost_label: '₹5.00 / mandate (NPCI) + ₹3.50 / debit rail',
+      billing_frequency: 'monthly',
+      agreement_status: 'signed_active',
       effective_date: '2026-08-12',
+      estimated_revenue_inr: 41200,
+      estimated_provider_cost_inr: 9800,
+      estimated_margin_inr: 31400,
+      estimated_margin_pct: 76.2,
       advance_balance: {
         advance_received_inr: 59000,
         advance_balance_inr: 48600,
         charges_applied_inr: 10400,
         last_adjusted_at: '2026-10-15T14:30:00Z',
         adjustment_history: [
-          { id: 'adj_stx_1', date: '2026-08-12', type: 'credit', amount_inr: 59000, description: 'Initial Flex Security Advance', balance_after_inr: 59000 },
-          { id: 'adj_stx_2', date: '2026-10-15', type: 'debit', amount_inr: 10400, description: 'Flex debit fees applied', balance_after_inr: 48600 },
+          {
+            id: 'adj_stx_1',
+            date: '2026-08-12',
+            type: 'credit',
+            amount_inr: 59000,
+            description: 'Initial Flex Security Advance',
+            balance_after_inr: 59000,
+          },
+          {
+            id: 'adj_stx_2',
+            date: '2026-10-15',
+            type: 'debit',
+            amount_inr: 10400,
+            description: 'Flex debit fees applied',
+            balance_after_inr: 48600,
+          },
         ],
       },
     },
@@ -563,13 +883,29 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 95,
     staff_count: 3,
     campuses: [
-      { code: 'APX-KOTA', name: 'Kota Main Center', city: 'Kota', state: 'Rajasthan', status: 'active' },
+      {
+        code: 'APX-KOTA',
+        name: 'Kota Main Center',
+        city: 'Kota',
+        state: 'Rajasthan',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: 'Apex Educational Services Pvt Ltd', registration_reference: 'REG-RAJ-2022-1089', tax_reference_masked: 'AAACA••••E', status: 'active' },
+      {
+        name: 'Apex Educational Services Pvt Ltd',
+        registration_reference: 'REG-RAJ-2022-1089',
+        tax_reference_masked: 'AAACA••••E',
+        status: 'active',
+      },
     ],
     members: [
-      { id: 'usr-apex-dir', email: 'director@apexkota.example.invalid', role_key: 'owner', status: 'active' },
+      {
+        id: 'usr-apex-dir',
+        email: 'director@apexkota.example.invalid',
+        role_key: 'owner',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_starter',
@@ -593,7 +929,16 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'per_autopay_mandate',
+      billing_rate_label: '₹140 / registered mandate + ₹8 / debit',
+      provider_cost_label: '₹2.50 / mandate switch + ₹1.50 / debit',
+      billing_frequency: 'quarterly',
+      agreement_status: 'under_review',
       effective_date: '2026-08-25',
+      estimated_revenue_inr: 13300,
+      estimated_provider_cost_inr: 3200,
+      estimated_margin_inr: 10100,
+      estimated_margin_pct: 75.9,
       advance_balance: {
         advance_received_inr: 0,
         advance_balance_inr: 0,
@@ -632,13 +977,29 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     student_count: 110,
     staff_count: 4,
     campuses: [
-      { code: 'VGV-VAR', name: 'Varanasi Ashram Campus', city: 'Varanasi', state: 'Uttar Pradesh', status: 'active' },
+      {
+        code: 'VGV-VAR',
+        name: 'Varanasi Ashram Campus',
+        city: 'Varanasi',
+        state: 'Uttar Pradesh',
+        status: 'active',
+      },
     ],
     legal_entities: [
-      { name: 'Vedic Cultural Society', registration_reference: 'REG-UP-2016-5541', tax_reference_masked: 'AAACV••••F', status: 'active' },
+      {
+        name: 'Vedic Cultural Society',
+        registration_reference: 'REG-UP-2016-5541',
+        tax_reference_masked: 'AAACV••••F',
+        status: 'active',
+      },
     ],
     members: [
-      { id: 'usr-vgv-admin', email: 'admin@vedicvidyapith.example.invalid', role_key: 'owner', status: 'active' },
+      {
+        id: 'usr-vgv-admin',
+        email: 'admin@vedicvidyapith.example.invalid',
+        role_key: 'owner',
+        status: 'active',
+      },
     ],
     subscription: {
       plan_id: 'plan_growth',
@@ -650,7 +1011,13 @@ export const OWNER_INSTITUTIONS: Institution[] = [
       current_period_start: '2026-10-10T00:00:00Z',
       current_period_end: '2026-11-10T00:00:00Z',
       auto_renew: true,
-      features: ['direct_payments', 'standard_receipts', 'installments_tracker', 'enach_autopay', 'custom_branding'],
+      features: [
+        'direct_payments',
+        'standard_receipts',
+        'installments_tracker',
+        'enach_autopay',
+        'custom_branding',
+      ],
     },
     products_config: {
       fms: { enabled: true, status: 'operational', approved_at: '2026-09-16T11:00:00Z' },
@@ -662,14 +1029,30 @@ export const OWNER_INSTITUTIONS: Institution[] = [
     },
     commercials: {
       ...OWNER_DEFAULT_FLEX_COMMERCIALS,
+      model: 'fixed_institution_fee',
+      billing_rate_label: '₹25,000 / month flat platform retainer',
+      provider_cost_label: '₹4,000 hosting & API compliance cost',
+      billing_frequency: 'quarterly',
+      agreement_status: 'signed_active',
       effective_date: '2026-09-15',
+      estimated_revenue_inr: 25000,
+      estimated_provider_cost_inr: 4000,
+      estimated_margin_inr: 21000,
+      estimated_margin_pct: 84.0,
       advance_balance: {
         advance_received_inr: 59000,
         advance_balance_inr: 59000,
         charges_applied_inr: 0,
         last_adjusted_at: '2026-09-15T08:45:00Z',
         adjustment_history: [
-          { id: 'adj_vgv_1', date: '2026-09-15', type: 'credit', amount_inr: 59000, description: 'Initial Flex Security Advance (Pilot)', balance_after_inr: 59000 },
+          {
+            id: 'adj_vgv_1',
+            date: '2026-09-15',
+            type: 'credit',
+            amount_inr: 59000,
+            description: 'Initial Flex Security Advance (Pilot)',
+            balance_after_inr: 59000,
+          },
         ],
       },
     },
@@ -845,7 +1228,8 @@ export const OWNER_PAYMENT_PROVIDER_CONFIG = {
     whatsapp_reminders: true,
     email_reminders: true,
     reminder_schedule_days: [5, 2], // 5 Days and 2 Days before debit
-    failed_payment_template: 'Dear Parent, your fee debit of INR {{amount}} for {{student}} could not be completed. Click here to clear: {{repay_link}}',
+    failed_payment_template:
+      'Dear Parent, your fee debit of INR {{amount}} for {{student}} could not be completed. Click here to clear: {{repay_link}}',
     repayment_link_enabled: true,
     retry_policy: '2 Retries (Buffer: 24h & 72h)',
     max_retries: 2,
@@ -901,11 +1285,46 @@ export const OWNER_PLATFORM_SETTINGS = {
 };
 
 export const OWNER_ADMIN_USERS = [
-  { id: 'usr-demo-owner', email: 'saumya@gmail.com', role: 'owner', role_title: 'Platform Owner', active: true, created_at: '2026-04-01T00:00:00Z' },
-  { id: 'usr-admin-bill', email: 'billing@platform.example.invalid', role: 'billing_manager', role_title: 'Billing Manager', active: true, created_at: '2026-05-10T00:00:00Z' },
-  { id: 'usr-admin-fin', email: 'finance@platform.example.invalid', role: 'finance_operator', role_title: 'Finance Operator', active: true, created_at: '2026-05-15T00:00:00Z' },
-  { id: 'usr-admin-sup', email: 'support@platform.example.invalid', role: 'support_operator', role_title: 'Support Operator', active: true, created_at: '2026-06-01T00:00:00Z' },
-  { id: 'usr-admin-aud', email: 'auditor@compliance.example.invalid', role: 'read_only_auditor', role_title: 'Read-Only Auditor', active: true, created_at: '2026-06-15T00:00:00Z' },
+  {
+    id: 'usr-demo-owner',
+    email: 'saumya@gmail.com',
+    role: 'owner',
+    role_title: 'Platform Owner',
+    active: true,
+    created_at: '2026-04-01T00:00:00Z',
+  },
+  {
+    id: 'usr-admin-bill',
+    email: 'billing@platform.example.invalid',
+    role: 'billing_manager',
+    role_title: 'Billing Manager',
+    active: true,
+    created_at: '2026-05-10T00:00:00Z',
+  },
+  {
+    id: 'usr-admin-fin',
+    email: 'finance@platform.example.invalid',
+    role: 'finance_operator',
+    role_title: 'Finance Operator',
+    active: true,
+    created_at: '2026-05-15T00:00:00Z',
+  },
+  {
+    id: 'usr-admin-sup',
+    email: 'support@platform.example.invalid',
+    role: 'support_operator',
+    role_title: 'Support Operator',
+    active: true,
+    created_at: '2026-06-01T00:00:00Z',
+  },
+  {
+    id: 'usr-admin-aud',
+    email: 'auditor@compliance.example.invalid',
+    role: 'read_only_auditor',
+    role_title: 'Read-Only Auditor',
+    active: true,
+    created_at: '2026-06-15T00:00:00Z',
+  },
 ];
 
 export interface OwnerAuditEntry {
@@ -925,7 +1344,12 @@ export const OWNER_AUDIT_LOGS: OwnerAuditEntry[] = [
     actor: 'saumya@gmail.com',
     action: 'commercials.advance_adjust',
     object_id: 'tenant-delhi-campus',
-    details: { institution: 'Delhi Public School (Demo)', type: 'debit', amount_inr: 7060, balance_after: 42500 },
+    details: {
+      institution: 'Delhi Public School (Demo)',
+      type: 'debit',
+      amount_inr: 7060,
+      balance_after: 42500,
+    },
     previous_hash: '9f8b417e29...',
     hash: '8a2b5310de...',
     created_at: '2026-10-22T09:15:00Z',
@@ -955,7 +1379,11 @@ export const OWNER_AUDIT_LOGS: OwnerAuditEntry[] = [
     actor: 'saumya@gmail.com',
     action: 'subscription.assigned',
     object_id: 'tenant-greenwood-intl',
-    details: { plan_id: 'plan_enterprise', price_inr: 4000, institution: 'Greenwood International' },
+    details: {
+      plan_id: 'plan_enterprise',
+      price_inr: 4000,
+      institution: 'Greenwood International',
+    },
     previous_hash: '3d18ba99ef...',
     hash: '4c8e1029ba...',
     created_at: '2026-10-20T16:40:12Z',
@@ -965,7 +1393,11 @@ export const OWNER_AUDIT_LOGS: OwnerAuditEntry[] = [
     actor: 'saumya@gmail.com',
     action: 'tenant.status_change',
     object_id: 'tenant-apex-coaching',
-    details: { previous_status: 'live', new_status: 'suspended', reason: 'Subscription renewal overdue > 30 days' },
+    details: {
+      previous_status: 'live',
+      new_status: 'suspended',
+      reason: 'Subscription renewal overdue > 30 days',
+    },
     previous_hash: '1a90c4412e...',
     hash: '3d18ba99ef...',
     created_at: '2026-10-20T11:15:00Z',
@@ -996,7 +1428,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
 
     const activeInstitutions = insts.filter((t) => t.status === 'live' || t.status === 'pilot');
     const fmsCount = insts.filter((t) => t.products_config?.fms?.enabled).length;
-    const flexCount = insts.filter((t) => t.products_config?.flex_enach?.enabled || t.products_config?.flex_autopay?.enabled).length;
+    const flexCount = insts.filter(
+      (t) => t.products_config?.flex_enach?.enabled || t.products_config?.flex_autopay?.enabled,
+    ).length;
     const activeSubs = insts.filter((t) => t.subscription?.status === 'active');
     const mrrMinor = activeSubs.reduce((acc, t) => acc + (t.subscription?.amount_minor || 0), 0);
 
@@ -1031,7 +1465,27 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
         total_fee_collections_inr: institutionalFeeCollectionInr,
         total_successful_debits: successfulDebitsCount,
         total_failed_debits: failedDebitsCount,
-        active_enach_mandates: activeMandatesCount,
+        active_mandates_total: activeMandatesCount,
+        active_enach_mandates: 962,
+        active_upi_autopay_mandates: 454,
+        successful_enach_debits: 872,
+        successful_upi_autopay_debits: 408,
+        successful_one_time_upi: 3420,
+        commercial_active_agreements: insts.filter(
+          (t) => t.commercials?.agreement_status === 'signed_active',
+        ).length,
+        commercial_est_revenue_inr: insts.reduce(
+          (acc, t) => acc + (t.commercials?.estimated_revenue_inr || 0),
+          0,
+        ),
+        commercial_est_provider_cost_inr: insts.reduce(
+          (acc, t) => acc + (t.commercials?.estimated_provider_cost_inr || 0),
+          0,
+        ),
+        commercial_est_margin_inr: insts.reduce(
+          (acc, t) => acc + (t.commercials?.estimated_margin_inr || 0),
+          0,
+        ),
         pending_settlements_inr: pendingSettlementsInr,
         outstanding_platform_invoices_inr: outstandingInvoicesInr,
       },
@@ -1102,7 +1556,16 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   }
 
   // 3. Institution Details
-  if (path.startsWith('owner/institutions/') && !path.endsWith('/status') && !path.endsWith('/products') && !path.endsWith('/commercials') && !path.endsWith('/settlement') && !path.endsWith('/advance/adjust') && !path.endsWith('/subscription') && method === 'GET') {
+  if (
+    path.startsWith('owner/institutions/') &&
+    !path.endsWith('/status') &&
+    !path.endsWith('/products') &&
+    !path.endsWith('/commercials') &&
+    !path.endsWith('/settlement') &&
+    !path.endsWith('/advance/adjust') &&
+    !path.endsWith('/subscription') &&
+    method === 'GET'
+  ) {
     const id = path.split('/')[2];
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === id);
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
@@ -1126,7 +1589,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const oldStatus = inst.status;
     inst.status = body.status;
@@ -1157,7 +1622,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     if (body.product) {
       (inst.products_config as any)[body.product] = {
@@ -1186,13 +1653,19 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   }
 
   // 6. Update Institution Commercials Override
-  if (path.startsWith('owner/institutions/') && path.endsWith('/commercials') && method === 'POST') {
+  if (
+    path.startsWith('owner/institutions/') &&
+    path.endsWith('/commercials') &&
+    method === 'POST'
+  ) {
     const id = path.split('/')[2];
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === id);
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     inst.commercials = {
       ...inst.commercials,
@@ -1221,7 +1694,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     inst.settlement_account = {
       ...inst.settlement_account,
@@ -1233,7 +1708,11 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
       actor: 'saumya@gmail.com',
       action: 'settlement_account.update',
       object_id: id || '',
-      details: { institution: inst.display_name, bank: body.bank_name, policy: body.settlement_policy },
+      details: {
+        institution: inst.display_name,
+        bank: body.bank_name,
+        policy: body.settlement_policy,
+      },
       previous_hash: OWNER_AUDIT_LOGS[0]?.hash || 'genesis',
       hash: Math.random().toString(36).substring(2, 15),
       created_at: new Date().toISOString(),
@@ -1243,13 +1722,19 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   }
 
   // 8. Advance Adjustment for Institution
-  if (path.startsWith('owner/institutions/') && path.endsWith('/advance/adjust') && method === 'POST') {
+  if (
+    path.startsWith('owner/institutions/') &&
+    path.endsWith('/advance/adjust') &&
+    method === 'POST'
+  ) {
     const id = path.split('/')[2];
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === id);
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const amount = Number(body.amount_inr) || 0;
     const type = body.type as 'credit' | 'debit';
@@ -1262,7 +1747,10 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
       inst.commercials.advance_balance.advance_received_inr += amount;
     } else {
       if (amount > currentBal && !body.allow_negative) {
-        return NextResponse.json({ message: 'Deduction exceeds remaining advance balance.' }, { status: 400 });
+        return NextResponse.json(
+          { message: 'Deduction exceeds remaining advance balance.' },
+          { status: 400 },
+        );
       }
       newBal -= amount;
       inst.commercials.advance_balance.charges_applied_inr += amount;
@@ -1284,7 +1772,13 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
       actor: 'saumya@gmail.com',
       action: 'commercials.advance_adjust',
       object_id: id || '',
-      details: { institution: inst.display_name, type, amount_inr: amount, balance_after: newBal, description },
+      details: {
+        institution: inst.display_name,
+        type,
+        amount_inr: amount,
+        balance_after: newBal,
+        description,
+      },
       previous_hash: OWNER_AUDIT_LOGS[0]?.hash || 'genesis',
       hash: Math.random().toString(36).substring(2, 15),
       created_at: new Date().toISOString(),
@@ -1298,7 +1792,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     if (method === 'GET') return NextResponse.json(OWNER_PLANS);
     if (method === 'POST') {
       let body: any = {};
-      try { body = await req.json(); } catch {}
+      try {
+        body = await req.json();
+      } catch {}
 
       const planId = body.id || `plan_${body.slug || Date.now().toString(36)}`;
       const newPlan: SubscriptionPlan = {
@@ -1347,13 +1843,19 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   }
 
   // 10. Assign Subscription to Institution
-  if (path.startsWith('owner/institutions/') && path.endsWith('/subscription') && method === 'POST') {
+  if (
+    path.startsWith('owner/institutions/') &&
+    path.endsWith('/subscription') &&
+    method === 'POST'
+  ) {
     const id = path.split('/')[2];
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === id);
     if (!inst) return NextResponse.json({ message: 'Institution not found' }, { status: 404 });
 
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const plan = OWNER_PLANS.find((p) => p.id === body.plan_id) || OWNER_PLANS[1]!;
     const now = new Date();
@@ -1414,7 +1916,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   // 11. Create Razorpay Payment Link
   if (path === 'owner/subscriptions/create-payment-link' && method === 'POST') {
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === body.tenant_id);
     const plan = OWNER_PLANS.find((p) => p.id === body.plan_id) || OWNER_PLANS[0]!;
@@ -1437,7 +1941,10 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     const activeSubs = OWNER_INSTITUTIONS.filter((t) => t.subscription?.status === 'active');
     const mrrMinor = activeSubs.reduce((acc, t) => acc + (t.subscription?.amount_minor || 0), 0);
     const expiredSubs = OWNER_INSTITUTIONS.filter((t) => t.subscription?.status === 'expired');
-    const outstandingMinor = expiredSubs.reduce((acc, t) => acc + (t.subscription?.amount_minor || 0), 0);
+    const outstandingMinor = expiredSubs.reduce(
+      (acc, t) => acc + (t.subscription?.amount_minor || 0),
+      0,
+    );
 
     const monthlyMap: Record<string, number> = {};
     for (const tx of paidTx) {
@@ -1476,7 +1983,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   // 13. Update PG Commercial Rates Table
   if (path === 'owner/revenue/pg-rates' && method === 'POST') {
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const rateIdx = OWNER_PG_RATES.findIndex((r) => r.id === body.id);
     if (rateIdx >= 0) {
@@ -1505,7 +2014,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   // 14. Record Payment
   if (path === 'owner/revenue/record-payment' && method === 'POST') {
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const inst = OWNER_INSTITUTIONS.find((t) => t.id === body.tenant_id);
     const plan = OWNER_PLANS.find((p) => p.id === body.plan_id);
@@ -1559,9 +2070,11 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
 
   // 15. Export CSV
   if (path === 'owner/revenue/export-csv' && method === 'GET') {
-    const headers = 'Invoice Number,Institution,Category,Plan,Amount INR,GST INR,Total INR,Status,Method,Gateway Reference,Date\n';
-    const rows = OWNER_SUBSCRIPTION_REVENUE.map((tx) =>
-      `"${tx.invoice_number}","${tx.institution_name}","${tx.category}","${tx.plan_name || ''}",${tx.price_inr},${tx.gst_inr || 0},${tx.total_inr || tx.price_inr},"${tx.status}","${tx.payment_method}","${tx.gateway_payment_id}","${tx.recorded_at}"`
+    const headers =
+      'Invoice Number,Institution,Category,Plan,Amount INR,GST INR,Total INR,Status,Method,Gateway Reference,Date\n';
+    const rows = OWNER_SUBSCRIPTION_REVENUE.map(
+      (tx) =>
+        `"${tx.invoice_number}","${tx.institution_name}","${tx.category}","${tx.plan_name || ''}",${tx.price_inr},${tx.gst_inr || 0},${tx.total_inr || tx.price_inr},"${tx.status}","${tx.payment_method}","${tx.gateway_payment_id}","${tx.recorded_at}"`,
     ).join('\n');
     return new NextResponse(headers + rows, {
       headers: {
@@ -1576,7 +2089,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     if (method === 'GET') return NextResponse.json(OWNER_PAYMENT_PROVIDER_CONFIG);
     if (method === 'POST') {
       let body: any = {};
-      try { body = await req.json(); } catch {}
+      try {
+        body = await req.json();
+      } catch {}
 
       if (body.enach_config) {
         OWNER_PAYMENT_PROVIDER_CONFIG.enach_config = {
@@ -1627,9 +2142,15 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
       latency_ms: 112,
       provider: 'Razorpay Payment Gateway & Subscriptions API',
       connection: 'TLS 1.3 Active (Verified)',
-      supported_methods: ['UPI AutoPay (Sandbox)', 'eNACH Mandates (Sandbox)', 'Credit/Debit Cards', 'Netbanking'],
+      supported_methods: [
+        'UPI AutoPay (Sandbox)',
+        'eNACH Mandates (Sandbox)',
+        'Credit/Debit Cards',
+        'Netbanking',
+      ],
       rbi_compliance: 'Verified PA/PG Framework compliant',
-      enach_integration_note: 'eNACH and AutoPay operates in Sandbox mode until institutional bank clearance is completed with NPCI.',
+      enach_integration_note:
+        'eNACH and AutoPay operates in Sandbox mode until institutional bank clearance is completed with NPCI.',
       verified_at: new Date().toISOString(),
     });
   }
@@ -1644,7 +2165,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     }
     if (method === 'POST') {
       let body: any = {};
-      try { body = await req.json(); } catch {}
+      try {
+        body = await req.json();
+      } catch {}
 
       Object.assign(OWNER_PLATFORM_SETTINGS, body);
 
@@ -1676,13 +2199,24 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   // 20. Provision Platform Admin with Role
   if (path === 'owner/admins' && method === 'POST') {
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const newAdmin = {
       id: `usr-admin-${Date.now().toString(36)}`,
       email: body.email,
       role: body.role || 'editor',
-      role_title: body.role === 'billing_manager' ? 'Billing Manager' : body.role === 'finance_operator' ? 'Finance Operator' : body.role === 'read_only_auditor' ? 'Read-Only Auditor' : body.role === 'support_operator' ? 'Support Operator' : 'Platform Admin',
+      role_title:
+        body.role === 'billing_manager'
+          ? 'Billing Manager'
+          : body.role === 'finance_operator'
+            ? 'Finance Operator'
+            : body.role === 'read_only_auditor'
+              ? 'Read-Only Auditor'
+              : body.role === 'support_operator'
+                ? 'Support Operator'
+                : 'Platform Admin',
       active: true,
       created_at: new Date().toISOString(),
     };
@@ -1708,7 +2242,9 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
   // 21. Update or Revoke Platform Admin
   if (path === 'owner/admins' && (method === 'PATCH' || method === 'PUT')) {
     let body: any = {};
-    try { body = await req.json(); } catch {}
+    try {
+      body = await req.json();
+    } catch {}
 
     const admin = OWNER_ADMIN_USERS.find((a) => a.id === body.id || a.email === body.email);
     if (!admin) {
@@ -1716,7 +2252,10 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
     }
 
     if (admin.email === 'saumya@gmail.com' && body.active === false) {
-      return NextResponse.json({ error: 'Root platform owner account cannot be revoked.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Root platform owner account cannot be revoked.' },
+        { status: 400 },
+      );
     }
 
     if (typeof body.active === 'boolean') {
@@ -1729,14 +2268,14 @@ export async function handleOwnerRoute(path: string, method: string, req: NextRe
         body.role === 'billing_manager'
           ? 'Billing Manager'
           : body.role === 'finance_operator'
-          ? 'Finance Operator'
-          : body.role === 'read_only_auditor'
-          ? 'Read-Only Auditor'
-          : body.role === 'support_operator'
-          ? 'Support Operator'
-          : body.role === 'platform_admin'
-          ? 'Platform Admin'
-          : 'Platform Operator';
+            ? 'Finance Operator'
+            : body.role === 'read_only_auditor'
+              ? 'Read-Only Auditor'
+              : body.role === 'support_operator'
+                ? 'Support Operator'
+                : body.role === 'platform_admin'
+                  ? 'Platform Admin'
+                  : 'Platform Operator';
     }
 
     OWNER_AUDIT_LOGS.unshift({

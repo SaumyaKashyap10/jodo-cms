@@ -17,7 +17,9 @@ export function OwnerInstitutions() {
   // Modal States
   const [selectedInst, setSelectedInst] = useState<any | null>(null);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [detailTab, setDetailTab] = useState<'overview' | 'products' | 'commercials' | 'settlement' | 'history'>('overview');
+  const [detailTab, setDetailTab] = useState<
+    'overview' | 'products' | 'commercials' | 'settlement' | 'history'
+  >('overview');
   const [instHistory, setInstHistory] = useState<any[]>([]);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [targetStatus, setTargetStatus] = useState<'live' | 'suspended'>('live');
@@ -85,7 +87,10 @@ export function OwnerInstitutions() {
     }
   };
 
-  const handleOpenDetails = async (inst: any, initialTab: 'overview' | 'products' | 'commercials' | 'settlement' | 'history' = 'overview') => {
+  const handleOpenDetails = async (
+    inst: any,
+    initialTab: 'overview' | 'products' | 'commercials' | 'settlement' | 'history' = 'overview',
+  ) => {
     setDetailTab(initialTab);
     try {
       const details = await api<any>(`/v1/owner/institutions/${inst.id}`);
@@ -189,7 +194,9 @@ export function OwnerInstitutions() {
     const matchesProduct =
       productFilter === 'all' ||
       (productFilter === 'fms' && inst.products_config?.fms?.enabled) ||
-      (productFilter === 'flex' && (inst.products_config?.flex_enach?.enabled || inst.products_config?.flex_autopay?.enabled)) ||
+      (productFilter === 'flex' &&
+        (inst.products_config?.flex_enach?.enabled ||
+          inst.products_config?.flex_autopay?.enabled)) ||
       (productFilter === 'pg' && inst.products_config?.payment_gateway?.enabled);
 
     return matchesSearch && matchesStatus && matchesProduct;
@@ -204,7 +211,8 @@ export function OwnerInstitutions() {
             Registered Institutions & Products
           </h1>
           <p className="text-xs text-[#6c8f89] mt-0.5">
-            Directory of educational tenants, Jodo FMS and Flex product activations, commercial terms, and settlement bank accounts.
+            Directory of educational tenants, Jodo FMS and Flex product activations, commercial
+            terms, and settlement bank accounts.
           </p>
         </div>
 
@@ -220,7 +228,12 @@ export function OwnerInstitutions() {
         <div className="relative flex-1 max-w-md">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6c8f89]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
           </span>
           <input
@@ -262,7 +275,9 @@ export function OwnerInstitutions() {
         {loading && institutions.length === 0 ? (
           <div className="p-12 text-center text-slate-500">
             <div className="inline-block h-7 w-7 animate-spin rounded-full border-3 border-teal-600 border-t-transparent" />
-            <p className="mt-2.5 text-xs font-medium text-slate-600">Loading registered institutions…</p>
+            <p className="mt-2.5 text-xs font-medium text-slate-600">
+              Loading registered institutions…
+            </p>
           </div>
         ) : error ? (
           <div className="p-8 text-center text-rose-600">
@@ -271,8 +286,12 @@ export function OwnerInstitutions() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center text-slate-500">
-            <p className="font-medium text-sm text-slate-700">No institutions found matching your filter.</p>
-            <p className="text-xs mt-1 text-slate-400">Try adjusting the search query or status filter.</p>
+            <p className="font-medium text-sm text-slate-700">
+              No institutions found matching your filter.
+            </p>
+            <p className="text-xs mt-1 text-slate-400">
+              Try adjusting the search query or status filter.
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -283,7 +302,7 @@ export function OwnerInstitutions() {
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Product Activations</th>
                   <th className="px-4 py-3">Settlement Bank</th>
-                  <th className="px-4 py-3">Subscription</th>
+                  <th className="px-4 py-3">Commercial Model</th>
                   <th className="px-4 py-3">Flex Advance</th>
                   <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
@@ -302,7 +321,8 @@ export function OwnerInstitutions() {
                       <td className="px-4 py-3.5">
                         <div className="font-semibold text-slate-900">{inst.display_name}</div>
                         <div className="text-[11px] text-slate-400 font-mono mt-0.5">
-                          {inst.code || inst.slug} • {inst.campus_count || 1} Campus • {inst.student_count || 0} Students
+                          {inst.code || inst.slug} • {inst.campus_count || 1} Campus •{' '}
+                          {inst.student_count || 0} Students
                         </div>
                       </td>
 
@@ -327,16 +347,24 @@ export function OwnerInstitutions() {
                       {/* Product Activations Matrix (Requirement Section 5.B) */}
                       <td className="px-4 py-3.5">
                         <div className="flex flex-wrap gap-1">
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.fms?.enabled ? 'bg-teal-50 text-teal-800 border border-teal-200' : 'bg-slate-100 text-slate-400'}`}>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.fms?.enabled ? 'bg-teal-50 text-teal-800 border border-teal-200' : 'bg-slate-100 text-slate-400'}`}
+                          >
                             FMS
                           </span>
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.flex_enach?.enabled ? 'bg-blue-50 text-blue-800 border border-blue-200' : 'bg-slate-100 text-slate-400'}`}>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.flex_enach?.enabled ? 'bg-blue-50 text-blue-800 border border-blue-200' : 'bg-slate-100 text-slate-400'}`}
+                          >
                             eNACH
                           </span>
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.flex_autopay?.enabled ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-400'}`}>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.flex_autopay?.enabled ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-400'}`}
+                          >
                             AutoPay
                           </span>
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.payment_gateway?.enabled ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-400'}`}>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${prods.payment_gateway?.enabled ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-400'}`}
+                          >
                             Gateway
                           </span>
                         </div>
@@ -344,28 +372,38 @@ export function OwnerInstitutions() {
 
                       {/* Bank Settlement Account (Requirement Section 5.C) */}
                       <td className="px-4 py-3.5">
-                        <div className="font-medium text-slate-800">{bank.bank_name || 'HDFC Bank'}</div>
+                        <div className="font-medium text-slate-800">
+                          {bank.bank_name || 'HDFC Bank'}
+                        </div>
                         <div className="text-[11px] text-slate-500 font-mono">
-                          {bank.account_number_masked || '••••4092'} • <span className="text-emerald-700 font-semibold">{bank.settlement_policy || 'T+1'}</span>
+                          {bank.account_number_masked || '••••4092'} •{' '}
+                          <span className="text-emerald-700 font-semibold">
+                            {bank.settlement_policy || 'T+1'}
+                          </span>
                         </div>
                       </td>
 
                       <td className="px-4 py-3.5">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-teal-50 text-teal-800 border border-teal-200">
-                          {sub.plan_name || 'Growth Plan'}
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-[#eafbf4] text-[#075e47] border border-[#a3ebce] capitalize">
+                          {comm.model ? comm.model.replace(/_/g, ' ') : 'Hybrid'}
                         </span>
-                        <div className="text-[11px] text-slate-400 mt-0.5">
-                          ₹{(sub.price_inr || 3000).toLocaleString('en-IN')}/mo
+                        <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                          {comm.billing_rate_label || '1.0% + ₹200 / reg'}
                         </div>
                       </td>
 
                       {/* Flex Advance Balance (Requirement Section 7.B) */}
                       <td className="px-4 py-3.5">
                         <div className="font-semibold text-slate-900">
-                          ₹{(comm.advance_balance?.advance_balance_inr || 0).toLocaleString('en-IN')}
+                          ₹
+                          {(comm.advance_balance?.advance_balance_inr || 0).toLocaleString('en-IN')}
                         </div>
                         <div className="text-[10px] text-slate-400">
-                          of ₹{(comm.advance_balance?.advance_received_inr || 0).toLocaleString('en-IN')} Adv
+                          of ₹
+                          {(comm.advance_balance?.advance_received_inr || 0).toLocaleString(
+                            'en-IN',
+                          )}{' '}
+                          Adv
                         </div>
                       </td>
 
@@ -415,7 +453,11 @@ export function OwnerInstitutions() {
         isOpen={detailModalOpen && !!selectedInst}
         onClose={() => setDetailModalOpen(false)}
         title={selectedInst ? `Institution Master Dossier: ${selectedInst.display_name}` : ''}
-        subtitle={selectedInst ? `Legal Entity: ${selectedInst.legal_name} • Code: ${selectedInst.code || selectedInst.slug}` : ''}
+        subtitle={
+          selectedInst
+            ? `Legal Entity: ${selectedInst.legal_name} • Code: ${selectedInst.code || selectedInst.slug}`
+            : ''
+        }
         maxWidth="max-w-4xl"
       >
         {selectedInst && (
@@ -425,7 +467,9 @@ export function OwnerInstitutions() {
               <button
                 onClick={() => setDetailTab('overview')}
                 className={`h-7 px-3 rounded-md transition font-medium cursor-pointer shrink-0 whitespace-nowrap ${
-                  detailTab === 'overview' ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80' : 'text-slate-600 hover:text-slate-900'
+                  detailTab === 'overview'
+                    ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Overview & Campuses
@@ -433,7 +477,9 @@ export function OwnerInstitutions() {
               <button
                 onClick={() => setDetailTab('products')}
                 className={`h-7 px-3 rounded-md transition font-medium cursor-pointer shrink-0 whitespace-nowrap ${
-                  detailTab === 'products' ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80' : 'text-slate-600 hover:text-slate-900'
+                  detailTab === 'products'
+                    ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Product Activations (6)
@@ -441,7 +487,9 @@ export function OwnerInstitutions() {
               <button
                 onClick={() => setDetailTab('commercials')}
                 className={`h-7 px-3 rounded-md transition font-medium cursor-pointer shrink-0 whitespace-nowrap ${
-                  detailTab === 'commercials' ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80' : 'text-slate-600 hover:text-slate-900'
+                  detailTab === 'commercials'
+                    ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Commercials & Advance
@@ -449,7 +497,9 @@ export function OwnerInstitutions() {
               <button
                 onClick={() => setDetailTab('settlement')}
                 className={`h-7 px-3 rounded-md transition font-medium cursor-pointer shrink-0 whitespace-nowrap ${
-                  detailTab === 'settlement' ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80' : 'text-slate-600 hover:text-slate-900'
+                  detailTab === 'settlement'
+                    ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Bank Settlement Account
@@ -457,7 +507,9 @@ export function OwnerInstitutions() {
               <button
                 onClick={() => setDetailTab('history')}
                 className={`h-7 px-3 rounded-md transition font-medium cursor-pointer shrink-0 whitespace-nowrap ${
-                  detailTab === 'history' ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80' : 'text-slate-600 hover:text-slate-900'
+                  detailTab === 'history'
+                    ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200/80'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Activity History ({instHistory.length})
@@ -471,25 +523,46 @@ export function OwnerInstitutions() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Assigned Subscription Plan</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-50 text-teal-800 border border-teal-200">
-                        {selectedInst.subscription?.status === 'active' ? 'Active' : selectedInst.subscription?.status || 'Active'}
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                        Commercial Agreement
+                      </span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#eafbf4] text-[#075e47] border border-[#a3ebce]">
+                        {selectedInst.commercials?.agreement_status === 'signed_active'
+                          ? 'Signed & Active'
+                          : 'Under Review'}
                       </span>
                     </div>
-                    <div className="text-base font-bold text-slate-900 mt-1">
-                      {selectedInst.subscription?.plan_name || 'Growth Plan'}
+                    <div className="text-base font-bold text-slate-900 mt-1 capitalize">
+                      {selectedInst.commercials?.model
+                        ? selectedInst.commercials.model.replace(/_/g, ' ')
+                        : 'Hybrid Pricing'}
                     </div>
-                    <div className="text-xs text-slate-500 mt-0.5">
-                      ₹{(selectedInst.subscription?.price_inr || 3000).toLocaleString('en-IN')}/{selectedInst.subscription?.interval || 'monthly'}
+                    <div className="text-xs text-slate-600 mt-0.5 font-semibold">
+                      {selectedInst.commercials?.billing_rate_label ||
+                        '1.0% + ₹200 / mandate registration'}
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">
-                      Renewal: {selectedInst.subscription?.current_period_end ? new Date(selectedInst.subscription.current_period_end).toLocaleDateString('en-IN') : 'Auto-renew active'}
+                    <div className="text-[11px] text-slate-500 mt-1 flex items-center justify-between">
+                      <span>
+                        Frequency: {selectedInst.commercials?.billing_frequency || 'monthly'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setDetailModalOpen(false);
+                          setActiveSection('commercials');
+                        }}
+                        className="text-[#0f766e] hover:underline font-bold cursor-pointer"
+                      >
+                        Configure Commercials →
+                      </button>
                     </div>
                   </div>
 
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Payment Provider Rails</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                        Payment Provider Rails
+                      </span>
                       <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                         Connected
                       </span>
@@ -498,10 +571,18 @@ export function OwnerInstitutions() {
                       Razorpay Master Gateway
                     </div>
                     <div className="text-xs text-slate-500 mt-0.5">
-                      eNACH Status: <span className="font-semibold text-amber-700">{selectedInst.products_config?.flex_enach?.readiness === 'live_ready' ? 'Live Ready' : 'Sandbox Mode'}</span>
+                      eNACH Status:{' '}
+                      <span className="font-semibold text-amber-700">
+                        {selectedInst.products_config?.flex_enach?.readiness === 'live_ready'
+                          ? 'Live Ready'
+                          : 'Sandbox Mode'}
+                      </span>
                     </div>
                     <div className="text-[11px] text-slate-400 mt-1">
-                      Settlement Policy: <span className="font-semibold text-slate-700">{selectedInst.settlement_account?.settlement_policy || 'T+1'}</span>
+                      Settlement Policy:{' '}
+                      <span className="font-semibold text-slate-700">
+                        {selectedInst.settlement_account?.settlement_policy || 'T+1'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -511,38 +592,57 @@ export function OwnerInstitutions() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <span className="text-slate-500">Contact Email:</span>
-                      <div className="font-semibold text-slate-900 mt-0.5">{selectedInst.contact_email || 'accounts@institute.invalid'}</div>
+                      <div className="font-semibold text-slate-900 mt-0.5">
+                        {selectedInst.contact_email || 'accounts@institute.invalid'}
+                      </div>
                     </div>
                     <div>
                       <span className="text-slate-500">Contact Phone:</span>
-                      <div className="font-semibold text-slate-900 mt-0.5">{selectedInst.contact_phone || '+91 98765 43210'}</div>
+                      <div className="font-semibold text-slate-900 mt-0.5">
+                        {selectedInst.contact_phone || '+91 98765 43210'}
+                      </div>
                     </div>
                   </div>
                   <div>
                     <span className="text-slate-500">Registered Office Address:</span>
-                    <div className="text-slate-800 mt-0.5">{selectedInst.registered_address || 'Main Educational Campus, India'}</div>
+                    <div className="text-slate-800 mt-0.5">
+                      {selectedInst.registered_address || 'Main Educational Campus, India'}
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 pt-1 border-t border-slate-200/60">
                     <div>
                       <span className="text-slate-500">Institution Administrator:</span>
-                      <div className="font-semibold text-slate-900 mt-0.5">{selectedInst.institution_admin_name || 'Head of Institute'}</div>
+                      <div className="font-semibold text-slate-900 mt-0.5">
+                        {selectedInst.institution_admin_name || 'Head of Institute'}
+                      </div>
                     </div>
                     <div>
                       <span className="text-slate-500">Onboarding Date:</span>
-                      <div className="text-slate-800 mt-0.5">{new Date(selectedInst.onboarding_date || selectedInst.created_at).toLocaleDateString('en-IN', { dateStyle: 'long' })}</div>
+                      <div className="text-slate-800 mt-0.5">
+                        {new Date(
+                          selectedInst.onboarding_date || selectedInst.created_at,
+                        ).toLocaleDateString('en-IN', { dateStyle: 'long' })}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Campuses */}
                 <div>
-                  <h4 className="font-semibold text-slate-800 mb-2">Campuses & Branches ({selectedInst.campus_count || 1})</h4>
+                  <h4 className="font-semibold text-slate-800 mb-2">
+                    Campuses & Branches ({selectedInst.campus_count || 1})
+                  </h4>
                   <div className="space-y-1.5">
                     {(selectedInst.campuses || []).map((camp: any, idx: number) => (
-                      <div key={idx} className="p-2.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
+                      <div
+                        key={idx}
+                        className="p-2.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between"
+                      >
                         <div>
                           <span className="font-semibold text-slate-900">{camp.name}</span>
-                          <div className="text-slate-500 text-[11px]">{camp.city}, {camp.state} • Code: {camp.code}</div>
+                          <div className="text-slate-500 text-[11px]">
+                            {camp.city}, {camp.state} • Code: {camp.code}
+                          </div>
                         </div>
                         <span className="px-2 py-0.5 rounded bg-slate-200 font-medium text-slate-700 text-[11px]">
                           {camp.status || 'Active'}
@@ -554,15 +654,21 @@ export function OwnerInstitutions() {
 
                 {/* Legal Entity & PAN */}
                 <div>
-                  <h4 className="font-semibold text-slate-800 mb-2">Legal Entity & Tax Identifier</h4>
+                  <h4 className="font-semibold text-slate-800 mb-2">
+                    Legal Entity & Tax Identifier
+                  </h4>
                   <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-lg space-y-1.5">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Legal Name:</span>
-                      <span className="font-medium text-slate-900">{selectedInst.legal_entities?.[0]?.name || selectedInst.legal_name}</span>
+                      <span className="font-medium text-slate-900">
+                        {selectedInst.legal_entities?.[0]?.name || selectedInst.legal_name}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Tax Reference (Masked PAN):</span>
-                      <span className="font-mono text-slate-800 font-semibold">{selectedInst.legal_entities?.[0]?.tax_reference_masked || 'AAAAA••••A'}</span>
+                      <span className="font-mono text-slate-800 font-semibold">
+                        {selectedInst.legal_entities?.[0]?.tax_reference_masked || 'AAAAA••••A'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -573,15 +679,22 @@ export function OwnerInstitutions() {
             {detailTab === 'products' && (
               <div className="mt-4 space-y-4 text-xs">
                 <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-lg text-amber-900 leading-relaxed text-[11px]">
-                  <strong>Safeguard Notice:</strong> Activation depends on payment aggregator approvals and contract execution. Enabling a toggle does not render a rail operational unless upstream bank clearance and KYC are verified.
+                  <strong>Safeguard Notice:</strong> Activation depends on payment aggregator
+                  approvals and contract execution. Enabling a toggle does not render a rail
+                  operational unless upstream bank clearance and KYC are verified.
                 </div>
 
                 <div className="space-y-3">
                   {/* 1. Jodo FMS */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Jodo-Style Fee Management System (FMS)</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Custom fee structures, instalment schedules, parent portals, receipts, and cashier desks.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Jodo-Style Fee Management System (FMS)
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Custom fee structures, instalment schedules, parent portals, receipts, and
+                        cashier desks.
+                      </p>
                       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 mt-1">
                         ✓ Operational • Core Platform Engine
                       </span>
@@ -590,10 +703,12 @@ export function OwnerInstitutions() {
                       <input
                         type="checkbox"
                         checked={editableProducts.fms?.enabled ?? true}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          fms: { ...editableProducts.fms, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            fms: { ...editableProducts.fms, enabled: e.target.checked },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -603,20 +718,33 @@ export function OwnerInstitutions() {
                   {/* 2. Flex eNACH */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Jodo Flex — eNACH Mandates</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">NPCI Netbanking / Debit Card electronic recurring mandate authorization and presentation.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Jodo Flex — eNACH Mandates
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        NPCI Netbanking / Debit Card electronic recurring mandate authorization and
+                        presentation.
+                      </p>
                       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700 mt-1">
-                        ⓘ Readiness: {editableProducts.flex_enach?.readiness === 'live_ready' ? 'Live Ready' : 'Sandbox Mode'}
+                        ⓘ Readiness:{' '}
+                        {editableProducts.flex_enach?.readiness === 'live_ready'
+                          ? 'Live Ready'
+                          : 'Sandbox Mode'}
                       </span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
                         checked={editableProducts.flex_enach?.enabled ?? false}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          flex_enach: { ...editableProducts.flex_enach, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            flex_enach: {
+                              ...editableProducts.flex_enach,
+                              enabled: e.target.checked,
+                            },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -626,8 +754,13 @@ export function OwnerInstitutions() {
                   {/* 3. Flex UPI AutoPay */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Jodo Flex — UPI AutoPay</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">NPCI UPI 2.0 AutoPay mandate collection via Google Pay, PhonePe, Paytm, and BHIM.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Jodo Flex — UPI AutoPay
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        NPCI UPI 2.0 AutoPay mandate collection via Google Pay, PhonePe, Paytm, and
+                        BHIM.
+                      </p>
                       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-700 mt-1">
                         ⓘ Status: {editableProducts.flex_autopay?.status || 'operational'}
                       </span>
@@ -636,10 +769,15 @@ export function OwnerInstitutions() {
                       <input
                         type="checkbox"
                         checked={editableProducts.flex_autopay?.enabled ?? false}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          flex_autopay: { ...editableProducts.flex_autopay, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            flex_autopay: {
+                              ...editableProducts.flex_autopay,
+                              enabled: e.target.checked,
+                            },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -649,8 +787,13 @@ export function OwnerInstitutions() {
                   {/* 4. Payment Gateway */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Online Payment Gateway (Razorpay)</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Instant parent checkout via UPI, RuPay, Visa, Mastercard, Netbanking, and Wallets.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Online Payment Gateway (Razorpay)
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Instant parent checkout via UPI, RuPay, Visa, Mastercard, Netbanking, and
+                        Wallets.
+                      </p>
                       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 mt-1">
                         ✓ Connected via Platform Master Aggregator
                       </span>
@@ -659,10 +802,15 @@ export function OwnerInstitutions() {
                       <input
                         type="checkbox"
                         checked={editableProducts.payment_gateway?.enabled ?? true}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          payment_gateway: { ...editableProducts.payment_gateway, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            payment_gateway: {
+                              ...editableProducts.payment_gateway,
+                              enabled: e.target.checked,
+                            },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -672,17 +820,27 @@ export function OwnerInstitutions() {
                   {/* 5. Virtual Accounts */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Smart Virtual Accounts (VAN / SmartCollect)</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Unique virtual bank accounts per student for direct NEFT/RTGS auto-reconciliation.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Smart Virtual Accounts (VAN / SmartCollect)
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Unique virtual bank accounts per student for direct NEFT/RTGS
+                        auto-reconciliation.
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
                         checked={editableProducts.virtual_accounts?.enabled ?? false}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          virtual_accounts: { ...editableProducts.virtual_accounts, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            virtual_accounts: {
+                              ...editableProducts.virtual_accounts,
+                              enabled: e.target.checked,
+                            },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -692,17 +850,27 @@ export function OwnerInstitutions() {
                   {/* 6. Split Settlements */}
                   <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 text-xs">Multi-Entity Split Settlements</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Automated split settlement across distinct society trusts, transport vendors, and trust accounts.</p>
+                      <div className="font-bold text-slate-900 text-xs">
+                        Multi-Entity Split Settlements
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Automated split settlement across distinct society trusts, transport
+                        vendors, and trust accounts.
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
                         checked={editableProducts.split_settlements?.enabled ?? false}
-                        onChange={(e) => setEditableProducts({
-                          ...editableProducts,
-                          split_settlements: { ...editableProducts.split_settlements, enabled: e.target.checked },
-                        })}
+                        onChange={(e) =>
+                          setEditableProducts({
+                            ...editableProducts,
+                            split_settlements: {
+                              ...editableProducts.split_settlements,
+                              enabled: e.target.checked,
+                            },
+                          })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600" />
@@ -732,10 +900,20 @@ export function OwnerInstitutions() {
                       Jodo Flex Initial Security Advance
                     </span>
                     <div className="text-xl font-extrabold text-teal-950 mt-0.5">
-                      ₹{(editableCommercials.advance_balance?.advance_balance_inr || 0).toLocaleString('en-IN')}
+                      ₹
+                      {(
+                        editableCommercials.advance_balance?.advance_balance_inr || 0
+                      ).toLocaleString('en-IN')}
                     </div>
                     <div className="text-[11px] text-teal-700 mt-0.5">
-                      Total Advance Received: ₹{(editableCommercials.advance_balance?.advance_received_inr || 0).toLocaleString('en-IN')} • Deducted: ₹{(editableCommercials.advance_balance?.charges_applied_inr || 0).toLocaleString('en-IN')}
+                      Total Advance Received: ₹
+                      {(
+                        editableCommercials.advance_balance?.advance_received_inr || 0
+                      ).toLocaleString('en-IN')}{' '}
+                      • Deducted: ₹
+                      {(
+                        editableCommercials.advance_balance?.charges_applied_inr || 0
+                      ).toLocaleString('en-IN')}
                     </div>
                   </div>
                   <button
@@ -748,7 +926,9 @@ export function OwnerInstitutions() {
 
                 {/* Commercial Configuration Form */}
                 <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg space-y-3">
-                  <h4 className="font-bold text-slate-800 text-xs">Configured Jodo Flex Rates for this Institution</h4>
+                  <h4 className="font-bold text-slate-800 text-xs">
+                    Configured Jodo Flex Rates for this Institution
+                  </h4>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
@@ -758,13 +938,17 @@ export function OwnerInstitutions() {
                       <input
                         type="number"
                         value={editableCommercials.enach_registration_fee_inr || 200}
-                        onChange={(e) => setEditableCommercials({
-                          ...editableCommercials,
-                          enach_registration_fee_inr: Number(e.target.value),
-                        })}
+                        onChange={(e) =>
+                          setEditableCommercials({
+                            ...editableCommercials,
+                            enach_registration_fee_inr: Number(e.target.value),
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-semibold"
                       />
-                      <span className="text-[10px] text-slate-400 mt-0.5 block">+ 18% GST Applicable</span>
+                      <span className="text-[10px] text-slate-400 mt-0.5 block">
+                        + 18% GST Applicable
+                      </span>
                     </div>
 
                     <div>
@@ -775,13 +959,17 @@ export function OwnerInstitutions() {
                         type="number"
                         step="0.1"
                         value={editableCommercials.flex_debit_fee_percentage || 1.0}
-                        onChange={(e) => setEditableCommercials({
-                          ...editableCommercials,
-                          flex_debit_fee_percentage: Number(e.target.value),
-                        })}
+                        onChange={(e) =>
+                          setEditableCommercials({
+                            ...editableCommercials,
+                            flex_debit_fee_percentage: Number(e.target.value),
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-semibold"
                       />
-                      <span className="text-[10px] text-slate-400 mt-0.5 block">+ 18% GST Applicable</span>
+                      <span className="text-[10px] text-slate-400 mt-0.5 block">
+                        + 18% GST Applicable
+                      </span>
                     </div>
                   </div>
 
@@ -792,10 +980,12 @@ export function OwnerInstitutions() {
                       </label>
                       <select
                         value={editableCommercials.settlement_cycle || 'T+1'}
-                        onChange={(e) => setEditableCommercials({
-                          ...editableCommercials,
-                          settlement_cycle: e.target.value,
-                        })}
+                        onChange={(e) =>
+                          setEditableCommercials({
+                            ...editableCommercials,
+                            settlement_cycle: e.target.value,
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-semibold"
                       >
                         <option value="T+1">T+1 Business Day (Contracted)</option>
@@ -810,10 +1000,12 @@ export function OwnerInstitutions() {
                       <input
                         type="date"
                         value={editableCommercials.effective_date || '2026-04-15'}
-                        onChange={(e) => setEditableCommercials({
-                          ...editableCommercials,
-                          effective_date: e.target.value,
-                        })}
+                        onChange={(e) =>
+                          setEditableCommercials({
+                            ...editableCommercials,
+                            effective_date: e.target.value,
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs"
                       />
                     </div>
@@ -832,7 +1024,9 @@ export function OwnerInstitutions() {
 
                 {/* Advance Adjustment History */}
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mb-2">Advance Adjustment History</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mb-2">
+                    Advance Adjustment History
+                  </h4>
                   <div className="border border-slate-200/80 rounded-lg overflow-hidden">
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-100 text-slate-600 text-[10px] font-semibold uppercase">
@@ -845,23 +1039,32 @@ export function OwnerInstitutions() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
-                        {((editableCommercials.advance_balance?.adjustment_history) || []).map((adj: any) => (
-                          <tr key={adj.id}>
-                            <td className="p-2 text-slate-500 font-mono text-[11px]">{adj.date}</td>
-                            <td className="p-2">
-                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${adj.type === 'credit' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}>
-                                {adj.type}
-                              </span>
-                            </td>
-                            <td className="p-2 text-slate-700">{adj.description}</td>
-                            <td className={`p-2 font-semibold ${adj.type === 'credit' ? 'text-emerald-700' : 'text-slate-900'}`}>
-                              {adj.type === 'credit' ? '+' : '-'}₹{adj.amount_inr?.toLocaleString('en-IN')}
-                            </td>
-                            <td className="p-2 text-right font-bold text-slate-900 font-mono">
-                              ₹{adj.balance_after_inr?.toLocaleString('en-IN')}
-                            </td>
-                          </tr>
-                        ))}
+                        {(editableCommercials.advance_balance?.adjustment_history || []).map(
+                          (adj: any) => (
+                            <tr key={adj.id}>
+                              <td className="p-2 text-slate-500 font-mono text-[11px]">
+                                {adj.date}
+                              </td>
+                              <td className="p-2">
+                                <span
+                                  className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${adj.type === 'credit' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}
+                                >
+                                  {adj.type}
+                                </span>
+                              </td>
+                              <td className="p-2 text-slate-700">{adj.description}</td>
+                              <td
+                                className={`p-2 font-semibold ${adj.type === 'credit' ? 'text-emerald-700' : 'text-slate-900'}`}
+                              >
+                                {adj.type === 'credit' ? '+' : '-'}₹
+                                {adj.amount_inr?.toLocaleString('en-IN')}
+                              </td>
+                              <td className="p-2 text-right font-bold text-slate-900 font-mono">
+                                ₹{adj.balance_after_inr?.toLocaleString('en-IN')}
+                              </td>
+                            </tr>
+                          ),
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -874,7 +1077,9 @@ export function OwnerInstitutions() {
               <div className="mt-4 space-y-4 text-xs">
                 <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-lg space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
-                    <span className="font-bold text-slate-800 text-xs">Primary Settlement Bank Account</span>
+                    <span className="font-bold text-slate-800 text-xs">
+                      Primary Settlement Bank Account
+                    </span>
                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       ✓ Penny-Drop Verified
                     </span>
@@ -882,27 +1087,35 @@ export function OwnerInstitutions() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">Bank Name</label>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Bank Name
+                      </label>
                       <input
                         type="text"
                         value={editableSettlement.bank_name || 'HDFC Bank Ltd'}
-                        onChange={(e) => setEditableSettlement({
-                          ...editableSettlement,
-                          bank_name: e.target.value,
-                        })}
+                        onChange={(e) =>
+                          setEditableSettlement({
+                            ...editableSettlement,
+                            bank_name: e.target.value,
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-semibold"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">IFSC Code</label>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        IFSC Code
+                      </label>
                       <input
                         type="text"
                         value={editableSettlement.ifsc || 'HDFC0000043'}
-                        onChange={(e) => setEditableSettlement({
-                          ...editableSettlement,
-                          ifsc: e.target.value.toUpperCase(),
-                        })}
+                        onChange={(e) =>
+                          setEditableSettlement({
+                            ...editableSettlement,
+                            ifsc: e.target.value.toUpperCase(),
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-mono"
                       />
                     </div>
@@ -910,26 +1123,34 @@ export function OwnerInstitutions() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">Beneficiary Legal Name</label>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Beneficiary Legal Name
+                      </label>
                       <input
                         type="text"
                         value={editableSettlement.beneficiary_name || selectedInst.legal_name}
-                        onChange={(e) => setEditableSettlement({
-                          ...editableSettlement,
-                          beneficiary_name: e.target.value,
-                        })}
+                        onChange={(e) =>
+                          setEditableSettlement({
+                            ...editableSettlement,
+                            beneficiary_name: e.target.value,
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">Settlement Policy Window</label>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Settlement Policy Window
+                      </label>
                       <select
                         value={editableSettlement.settlement_policy || 'T+1'}
-                        onChange={(e) => setEditableSettlement({
-                          ...editableSettlement,
-                          settlement_policy: e.target.value,
-                        })}
+                        onChange={(e) =>
+                          setEditableSettlement({
+                            ...editableSettlement,
+                            settlement_policy: e.target.value,
+                          })
+                        }
                         className="w-full h-8 px-2.5 bg-white border border-slate-300 rounded-md text-xs font-semibold"
                       >
                         <option value="T+1">T+1 Business Day (Recommended)</option>
@@ -955,8 +1176,12 @@ export function OwnerInstitutions() {
             {detailTab === 'history' && (
               <div className="mt-4 space-y-3 text-xs">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                  <span className="font-bold text-slate-800 text-xs">Cryptographic Audit Trail for this Institution</span>
-                  <span className="text-[11px] text-slate-400 font-mono">Tenant ID: {selectedInst.id}</span>
+                  <span className="font-bold text-slate-800 text-xs">
+                    Cryptographic Audit Trail for this Institution
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    Tenant ID: {selectedInst.id}
+                  </span>
                 </div>
 
                 {instHistory.length === 0 ? (
@@ -966,7 +1191,10 @@ export function OwnerInstitutions() {
                 ) : (
                   <div className="divide-y divide-slate-100 border border-slate-200/80 rounded-lg overflow-hidden bg-white">
                     {instHistory.map((log: any) => (
-                      <div key={log.id} className="p-3 flex items-start justify-between gap-3 hover:bg-slate-50/60 transition">
+                      <div
+                        key={log.id}
+                        className="p-3 flex items-start justify-between gap-3 hover:bg-slate-50/60 transition"
+                      >
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="font-semibold text-slate-900">{log.action}</span>
@@ -975,7 +1203,10 @@ export function OwnerInstitutions() {
                             </span>
                           </div>
                           <div className="text-slate-600 text-xs mt-1">
-                            {log.details?.reason || log.details?.plan || log.details?.new_status || JSON.stringify(log.details)}
+                            {log.details?.reason ||
+                              log.details?.plan ||
+                              log.details?.new_status ||
+                              JSON.stringify(log.details)}
                           </div>
                           <div className="font-mono text-[10px] text-slate-400 mt-0.5">
                             Hash: {log.hash?.substring(0, 12)}…
@@ -1013,12 +1244,18 @@ export function OwnerInstitutions() {
         isOpen={advanceModalOpen && !!selectedInst}
         onClose={() => setAdvanceModalOpen(false)}
         title="Adjust Jodo Flex Advance"
-        subtitle={selectedInst ? `Adjust initial security advance credit balance for ${selectedInst.display_name}` : ''}
+        subtitle={
+          selectedInst
+            ? `Adjust initial security advance credit balance for ${selectedInst.display_name}`
+            : ''
+        }
         maxWidth="max-w-md"
       >
         <form onSubmit={handleRecordAdvanceAdjustment} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Adjustment Type</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Adjustment Type
+            </label>
             <select
               value={advanceForm.type}
               onChange={(e) => setAdvanceForm({ ...advanceForm, type: e.target.value as any })}
@@ -1030,19 +1267,25 @@ export function OwnerInstitutions() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Amount in INR (₹)</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Amount in INR (₹)
+            </label>
             <input
               type="number"
               required
               min={1}
               value={advanceForm.amount_inr}
-              onChange={(e) => setAdvanceForm({ ...advanceForm, amount_inr: Number(e.target.value) })}
+              onChange={(e) =>
+                setAdvanceForm({ ...advanceForm, amount_inr: Number(e.target.value) })
+              }
               className="w-full h-9 px-3 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Description / Memo</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Description / Memo
+            </label>
             <input
               type="text"
               required
@@ -1090,7 +1333,12 @@ export function OwnerInstitutions() {
               }`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
               </svg>
             </span>
             <div>
@@ -1104,11 +1352,15 @@ export function OwnerInstitutions() {
           <div className="text-xs text-slate-600 bg-slate-50 p-3.5 rounded-[18px] border border-slate-200 leading-relaxed font-medium">
             {targetStatus === 'suspended' ? (
               <>
-                <strong className="text-rose-800 font-bold">Critical Safeguard Warning:</strong> Suspending this institution will instantly switch its staff workspace to <strong>Read-Only Mode</strong>. Staff will not be able to record new payments, edit fee schedules, or modify student records.
+                <strong className="text-rose-800 font-bold">Critical Safeguard Warning:</strong>{' '}
+                Suspending this institution will instantly switch its staff workspace to{' '}
+                <strong>Read-Only Mode</strong>. Staff will not be able to record new payments, edit
+                fee schedules, or modify student records.
               </>
             ) : (
               <>
-                Reactivating will restore full administrative read-write capabilities to this institution&apos;s staff as governed by their membership roles.
+                Reactivating will restore full administrative read-write capabilities to this
+                institution&apos;s staff as governed by their membership roles.
               </>
             )}
           </div>
@@ -1144,7 +1396,11 @@ export function OwnerInstitutions() {
                   : 'bg-emerald-600 hover:bg-emerald-700'
               } disabled:opacity-50`}
             >
-              {submitting ? 'Applying…' : targetStatus === 'suspended' ? 'Confirm Suspension' : 'Confirm Reactivation'}
+              {submitting
+                ? 'Applying…'
+                : targetStatus === 'suspended'
+                  ? 'Confirm Suspension'
+                  : 'Confirm Reactivation'}
             </button>
           </div>
         </form>

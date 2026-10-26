@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useOwner } from './owner-context';
 import { OwnerOverview } from './owner-overview';
 import { OwnerInstitutions } from './owner-institutions';
+import { OwnerCommercials } from './owner-commercials';
 import { OwnerSubscriptions } from './owner-subscriptions';
 import { OwnerRevenue } from './owner-revenue';
 import { OwnerPaymentProviders } from './owner-payment-providers';
@@ -20,7 +21,12 @@ const SECTIONS = [
     group: 'MAIN MENU',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+        />
       </svg>
     ),
   },
@@ -30,17 +36,27 @@ const SECTIONS = [
     group: 'MAIN MENU',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+        />
       </svg>
     ),
   },
   {
-    id: 'subscriptions',
-    label: 'Subscriptions',
+    id: 'commercials',
+    label: 'Institution Commercials',
     group: 'FINANCE',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+        />
       </svg>
     ),
   },
@@ -50,7 +66,12 @@ const SECTIONS = [
     group: 'FINANCE',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     ),
   },
@@ -60,7 +81,12 @@ const SECTIONS = [
     group: 'SETTINGS',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+        />
       </svg>
     ),
   },
@@ -70,8 +96,18 @@ const SECTIONS = [
     group: 'SETTINGS',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+        />
       </svg>
     ),
   },
@@ -161,7 +197,7 @@ export function OwnerShellContent() {
               D
             </div>
             <div className="flex items-center gap-1.5 mb-1">
-              <h2 className="text-xs font-bold text-white tracking-tight">Dodo Platform</h2>
+              <h2 className="text-xs font-bold text-white tracking-tight">Dodo Owner Dashboard</h2>
               <span className="text-[9px] uppercase font-bold tracking-wider text-teal-300 bg-teal-950/80 border border-teal-800/60 px-1.5 py-0.5 rounded">
                 Owner CMS
               </span>
@@ -280,7 +316,10 @@ export function OwnerShellContent() {
     }
   };
 
-  const userEmail = session?.user?.email && session.user.email.includes('@') ? session.user.email : 'saumya@gmail.com';
+  const userEmail =
+    session?.user?.email && session.user.email.includes('@')
+      ? session.user.email
+      : 'saumya@gmail.com';
   const initial = userEmail.charAt(0).toUpperCase();
   const menuGroups = ['MAIN MENU', 'FINANCE', 'SETTINGS'] as const;
 
@@ -295,7 +334,9 @@ export function OwnerShellContent() {
               D
             </div>
             <div className="min-w-0">
-              <div className="font-extrabold text-base text-[#063331] tracking-tight leading-tight">Dodo</div>
+              <div className="font-extrabold text-base text-[#063331] tracking-tight leading-tight">
+                Dodo Owner Dashboard
+              </div>
               <div className="text-[10px] uppercase font-bold text-[#42c2a8] tracking-wider">
                 Fee Platform Console
               </div>
@@ -329,7 +370,12 @@ export function OwnerShellContent() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2.5"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </span>
                   </button>
@@ -352,9 +398,11 @@ export function OwnerShellContent() {
                               : 'text-[#476863] hover:text-[#063331] hover:bg-[#e4f3ee]/70'
                           }`}
                         >
-                          <span className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
-                            isActive ? 'text-white' : 'bg-[#e2f1ed] text-[#476863]'
-                          }`}>
+                          <span
+                            className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
+                              isActive ? 'text-white' : 'bg-[#e2f1ed] text-[#476863]'
+                            }`}
+                          >
                             {sec.icon}
                           </span>
                           <span className="truncate">{sec.label}</span>
@@ -377,9 +425,7 @@ export function OwnerShellContent() {
                 <div className="font-bold text-xs text-[#063331] truncate" title={userEmail}>
                   Saumya
                 </div>
-                <div className="text-[10px] font-medium text-[#6c8f89] truncate">
-                  {userEmail}
-                </div>
+                <div className="text-[10px] font-medium text-[#6c8f89] truncate">{userEmail}</div>
               </div>
             </div>
 
@@ -388,8 +434,18 @@ export function OwnerShellContent() {
               onClick={signOut}
               className="w-full h-9 px-4 pharmacy-pill-light text-rose-700 hover:text-rose-800 hover:bg-rose-50/60 text-xs font-bold cursor-pointer flex items-center justify-center gap-2 transition shadow-2xs"
             >
-              <svg className="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <svg
+                className="w-3.5 h-3.5 text-rose-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
               </svg>
               Logout
             </button>
@@ -409,7 +465,9 @@ export function OwnerShellContent() {
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#063331] to-[#0c4a45] text-[#34d399] flex items-center justify-center font-black text-xs">
                     D
                   </div>
-                  <span className="font-extrabold text-sm text-[#063331]">Dodo Console</span>
+                  <span className="font-extrabold text-sm text-[#063331]">
+                    Dodo Owner Dashboard
+                  </span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
@@ -440,10 +498,17 @@ export function OwnerShellContent() {
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2.5"
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </button>
-                      <div className={`space-y-1 overflow-hidden transition-all duration-200 ${isCollapsed ? 'max-h-0 opacity-0' : 'max-h-96 opacity-100'}`}>
+                      <div
+                        className={`space-y-1 overflow-hidden transition-all duration-200 ${isCollapsed ? 'max-h-0 opacity-0' : 'max-h-96 opacity-100'}`}
+                      >
                         {items.map((sec) => (
                           <button
                             key={sec.id}
@@ -487,7 +552,12 @@ export function OwnerShellContent() {
                 aria-label="Open navigation menu"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
 
@@ -496,7 +566,7 @@ export function OwnerShellContent() {
                   Welcome Saumya!
                 </h1>
                 <div className="text-[11px] text-[#6c8f89] font-semibold hidden md:block whitespace-nowrap">
-                  Dodo Platform Console / {activeSection.replace('-', ' ').toUpperCase()}
+                  Dodo Owner Dashboard / {activeSection.replace('-', ' ').toUpperCase()}
                 </div>
               </div>
             </div>
@@ -504,16 +574,36 @@ export function OwnerShellContent() {
             <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
               {/* Search pill with responsive flexible width */}
               <div className="hidden lg:flex items-center gap-2 h-9 w-36 xl:w-56 rounded-full bg-white border border-[rgba(7,53,51,0.08)] px-3.5 shadow-2xs transition-all duration-300 focus-within:w-64 focus-within:border-[#063331]/30">
-                <svg className="w-3.5 h-3.5 text-[#6c8f89] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  className="w-3.5 h-3.5 text-[#6c8f89] shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
                 <input
                   type="text"
                   placeholder="Search…"
                   className="bg-transparent text-xs text-[#063331] placeholder-[#8dafa9] focus:outline-none w-full font-medium"
                 />
-                <svg className="w-3 h-3 text-[#6c8f89] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
+                <svg
+                  className="w-3 h-3 text-[#6c8f89] shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"
+                  />
                 </svg>
               </div>
 
@@ -530,8 +620,12 @@ export function OwnerShellContent() {
                   {initial}
                 </div>
                 <div className="text-left hidden md:block">
-                  <div className="font-bold text-xs text-[#063331] leading-tight whitespace-nowrap">Saumya</div>
-                  <div className="text-[10px] text-[#6c8f89] truncate max-w-[120px]">{userEmail}</div>
+                  <div className="font-bold text-xs text-[#063331] leading-tight whitespace-nowrap">
+                    Saumya
+                  </div>
+                  <div className="text-[10px] text-[#6c8f89] truncate max-w-[120px]">
+                    {userEmail}
+                  </div>
                 </div>
               </div>
 
@@ -551,7 +645,8 @@ export function OwnerShellContent() {
           <main className="flex-1 overflow-y-auto px-5 sm:px-7 lg:px-8 py-6 sm:py-8">
             {activeSection === 'overview' && <OwnerOverview />}
             {activeSection === 'institutions' && <OwnerInstitutions />}
-            {activeSection === 'subscriptions' && <OwnerSubscriptions />}
+            {activeSection === 'commercials' && <OwnerCommercials />}
+            {activeSection === 'subscriptions' && <OwnerCommercials />}
             {activeSection === 'revenue' && <OwnerRevenue />}
             {activeSection === 'payment-providers' && <OwnerPaymentProviders />}
             {activeSection === 'settings' && <OwnerSettings />}
@@ -559,10 +654,7 @@ export function OwnerShellContent() {
         </div>
 
         {/* Dedicated Team Member Modal - Appears dead center */}
-        <AddTeamMemberModal
-          isOpen={addTeamModalOpen}
-          onClose={() => setAddTeamModalOpen(false)}
-        />
+        <AddTeamMemberModal isOpen={addTeamModalOpen} onClose={() => setAddTeamModalOpen(false)} />
       </div>
     </div>
   );

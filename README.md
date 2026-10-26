@@ -6,7 +6,8 @@ Standalone, production-grade Next.js Owner CMS Dashboard for educational fee man
 
 - **Platform Overview**: Real-time KPI metrics (MRR, total institutions, active eNACH mandates, gross collections, growth trend).
 - **Institution Management**: School & college onboarding, product activation (FMS, Flex eNACH, AutoPay, Virtual Accounts), commercial term adjustments, and bank verification.
-- **SaaS Subscriptions**: Tiered subscription plans (Starter, Growth, Enterprise) with feature matrices and billing intervals.
+- **Institution-wise Commercials**: Bespoke institution pricing agreements with 7 configurable commercial models (fixed fee, per-student, per-eNACH mandate, per-AutoPay mandate, per-debit, % collections, hybrid), provider cost tracking, and live contribution margin projections.
+- **Segregated Payment Rails**: Dedicated operational reporting and separate KPIs for NPCI eNACH, UPI 2.0 AutoPay recurring mandates, and Instant One-Time UPI.
 - **Revenue & Commercial Billing**: Gross platform revenue ledger, advance adjustments, invoice status tracking, and payment gateway interchange rates.
 - **Domestic Payment Rails**: RBI-compliant payment gateway rails (Razorpay, NPCI eNACH, Axis UPI AutoPay) with settlement cycle policies (T+1 / T+2).
 - **Permissions & Security**: Role-based access control, operator provisioning with one-time TOTP MFA secret generation, edit/revoke operator actions, and cryptographic audit ledger.
